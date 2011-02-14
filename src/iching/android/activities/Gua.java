@@ -38,7 +38,7 @@ public class Gua extends Activity
 	{
 		
 		@Override
-		public void onClick(View arg0)
+		public void onClick(View view)
 		{
 			
 		}
