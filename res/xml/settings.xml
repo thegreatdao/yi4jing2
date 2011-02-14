@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+	<PreferenceCategory android:title="@string/music_preference_category">
+		<CheckBoxPreference
+			android:key="musicPref"
+			android:title="@string/music_title"
+			android:summary="@string/music_summary"
+			android:defaultValue="true"/>
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/hexagrams_preference_category">
+		<ListPreference
+			android:key="viewPref"
+			android:title="@string/hexagrams_view_preference"
+			android:summary="@string/hexagrams_view_preference_summary"
+			android:entries="@array/hexagrams_view_names"
+			android:entryValues="@array/hexagrams_view_values"
+			android:defaultValue="0"/>
+    </PreferenceCategory>
+	
+	<PreferenceCategory android:title="@string/divinations_preference_category">
+		<ListPreference
+			android:key="numOfRecordsPref"
+			android:title="@string/divination_title"
+			android:summary="@string/divination_summary"
+			android:entries="@array/divinations_name"
+			android:entryValues="@array/divinations_values"
+			android:defaultValue="10"/>
+	</PreferenceCategory>
+</PreferenceScreen>

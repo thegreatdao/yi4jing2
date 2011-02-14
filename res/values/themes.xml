@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="Android" parent="android:Theme">
+		<item name="button">@style/ichingButton</item>
+		<item name="android:windowBackground">@drawable/background</item>
+		<item name="mainTitle">@style/mainTitle</item>
+		<item name="android:listViewStyle">@style/listView</item>
+		<item name="android:windowTitleSize">30dip</item>
+        <item name="android:windowTitleStyle">@style/CustomWindowTitle</item>
+        <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
+		<item name="android:textColor">@color/default_color</item>
+		<item name="android:alertDialogStyle">@style/alertDialogCustom</item>
+	</style>
+
+	<style name="Android.dialog" parent="android:Theme.Dialog">
+		<item name="android:windowBackground">@drawable/background</item>
+		<item name="android:textColor">@color/default_color</item>
+	</style>
+	
+	<style name="listView" parent="@android:style/Widget.ListView">
+		<item name="android:listSelector">@drawable/list_item</item>
+	</style>
+
+	<style name="CustomWindowTitleText" parent="android:TextAppearance.WindowTitle">
+          <item name="android:textSize">14dip</item>
+          <item name="android:textColor">@color/title_color</item>
+          <item name="android:textStyle">bold|italic</item>
+     </style>
+
+     <style name="CustomWindowTitleBackground" parent="android:Theme">
+           <item name="android:background">@color/title_background_color</item>
+     </style>
+
+     <style name="CustomWindowTitle" parent="android:WindowTitle">
+          <item name="android:textAppearance">@style/CustomWindowTitleText</item>
+          <item name="android:shadowDx">0</item>
+          <item name="android:shadowDy">0</item>
+          <item name="android:shadowRadius">2</item>
+          <item name="android:shadowColor">#EEEEEE</item>
+      </style>
+
+</resources>

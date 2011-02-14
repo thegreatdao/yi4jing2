@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+   android:paddingLeft="10dip"
+   android:paddingRight="10dip"
+   android:paddingTop="30dip"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent">
+	<ImageView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/spinnner"
+		android:layout_gravity="center_horizontal"/>
+	<TextView
+	   style="?mainTitle"
+	   android:layout_marginLeft="2dip"
+	   android:text="@string/main_title"/>
+   <Button
+   	  android:id="@+id/references_check"
+      android:text="@string/references_check_label"
+      style="?button"/>
+   <Button
+   	  android:id="@+id/cast_iching"
+      android:text="@string/cast_iching_label"
+      style="?button"/>
+   <Button
+   	  android:id="@+id/load_divinations"
+      android:text="@string/load_divinations"
+      style="?button"/>
+   <Button
+   	  android:id="@+id/randomizer"
+	  android:text="@string/randomizer"
+	  style="?button"/>
+   <Button
+   	  android:id="@+id/about"
+	  android:text="@string/about_label"
+	  style="?button"/>
+   <Button
+      android:id="@+id/exit"
+      android:text="@string/exit_label"
+      style="?button"/>
+</LinearLayout>

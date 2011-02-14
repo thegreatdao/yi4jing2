@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/cast_iching"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:stretchColumns="*"
+  android:gravity="center_horizontal">
+  	<include layout="@layout/title_icon"/>
+    <TableRow>
+    	<TextView
+	    	android:text="@string/your_question"
+	    	style="@style/divinationTitle"/>
+    </TableRow>
+    <TableRow>
+    	<ScrollView
+		      android:layout_span="2"
+			  android:layout_width="wrap_content"
+			  android:layout_height="100dip"
+			  android:layout_marginBottom="10dip">
+			  <TextView
+				android:id="@+id/your_question"
+				android:layout_width="fill_parent"
+				android:layout_height="30dip"
+		    	android:text="@string/your_question"
+		    	android:layout_gravity="left"
+		    	android:layout_marginLeft="10dip"
+		    	android:layout_marginRight="10dip"/>
+		</ScrollView>
+    </TableRow>
+    <TableRow>
+	    <View style="@style/seperator"/>
+    </TableRow>
+    <TableRow>
+    	<TextView
+	    	android:text="@string/your_divinations"
+	    	style="@style/divinationTitle"/>
+    </TableRow>
+	<include layout="@layout/hexagrams"/>
+	<TableRow>
+   	    <View style="@style/seperator"/>
+    </TableRow>
+</TableLayout>

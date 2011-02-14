@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_title">欢迎来到易经世界</string>
+    <string name="app_name">易经</string>
+    <string name="references_check_label">64卦查询</string>
+    <string name="cast_iching_label">占卜</string>
+    <string name="about_label">关于</string>
+    <string name="exit_label">退出</string>
+    <string name="about_text">
+	    《易经》是中国一部最古老而深邃的经典，据说是由伏羲的言论加以总结与修改概括而来，
+		是华夏五千年智慧与文化的结晶，被誉为“群经之首，大道之源”。在古代是帝王之学，
+		政治家、军事家、商家的必修之术。从本质上来讲，《易经》是一本关于“卜筮”之书。
+		“卜筮”就是对未来事态的发展进行预测，而《易经》便是总结这些预测的规律理论的书。
+	</string>
+	<string name="developer">编程与设计</string>
+	<string name="email">immortal_ego@hotmail.com</string>
+	<string name="settings">设置</string>
+	<string name="yes">确定</string>
+	<string name="no">取消</string>
+	<string name="cancel">取消</string>
+	<string name="confirmation_exit_text">确定要退出吗？</string>
+	<string name="gua_label">64卦</string>
+	<string name="switch_view">列表转化</string>
+	<string name="grid_view">图片形式</string>
+	<string name="list_view">文字形式</string>
+	<string name="music_title">音乐设置</string>
+	<string name="music_summary">关闭或播放音乐</string>
+	<string name="music_summary_on">关闭或播放音乐 【开】</string>
+	<string name="music_summary_off">关闭或播放音乐 【关】</string>
+	<string name="hexagrams_title">64卦排列形式</string>
+	<string name="hexagrams_summary">图片或文字排列</string>
+	<string name="settings_label">易经设置</string>
+	<string name="music_preference_category">音乐</string>
+	<string name="hexagrams_preference_category">卦序</string>
+	<string name="hexagrams_view_preference">64卦排列</string>
+	<string name="hexagrams_view_preference_summary">选择您想要的卦排列形式</string>
+	<string name="instruction">输入你的问题，以便可以保存下来.摇完卦后，你可以点击卦的标题，来看全卦的内容。</string>
+	<string name="destin">宇宙在手，万法由心。</string>
+	<string name="originalHexagram">本卦</string>
+	<string name="relatingHexagram">变卦</string>
+	<string name="tossCoin">摇卦</string>
+	<string name="restCoin">再来一卦</string>
+	<string name="saveDivination">保存</string>
+	<string name="load_divinations">我的占卜</string>
+	<string name="empty_question">请输入你的问题，然后保存</string>
+	<string name="records_full">你没有空间来存取这卦，你想删除第一卦，来保存这卦吗？</string>
+	<string name="succesful_save">你已经成功地保存这卦。</string>
+	<string name="divinations_preference_category">摇卦</string>
+	<string name="divination_title">摇卦数目</string>
+	<string name="divination_summary">可以保存的卦的数目，可选项是10,20,50或者不设限制。</string>
+	<string name="small">小(10)</string>
+	<string name="medium">中(20)</string>
+	<string name="large">大(50)</string>
+	<string name="infinite">无限</string>
+	<string name="your_question">你的问题：</string>
+	<string name="your_divinations">你的卜筮：</string>
+	<string name="current_value_view_on">【文字】</string>
+	<string name="current_value_view_off">【图片】</string>
+	<string name="open_bracket">【</string>
+	<string name="close_bracket">】</string>
+	<string name="on">开</string>
+	<string name="off">关</string>
+	<string name="exceed_numember_of_records_warning_title">你设置的数值比你保存的卦数小，请删除一些数据后再试。</string>
+	<string name="confirm_delete_divination">你确定要删除这条卦吗？</string>
+	<string name="divination_deleted">卦已经被删除！</string>
+	<string name="randomizer">八宫</string>
+	<string name="qian_gong">乾宫</string>
+	<string name="kun_gong">坤宫</string>
+	<string name="xun_gong">巽宫</string>
+	<string name="dui_gong">兑宫</string>
+	<string name="gen_gong">艮宫</string>
+	<string name="li_gong">离宫</string>
+	<string name="kan_gong">坎宫</string>
+	<string name="zhen_gong">震宫</string>
+	<string name="instruction_random">点击屏幕</string>
+</resources>
