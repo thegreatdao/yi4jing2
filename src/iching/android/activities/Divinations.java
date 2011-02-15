@@ -22,11 +22,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ListView;
 
 public class Divinations extends ListActivity
 {
@@ -107,6 +109,55 @@ public class Divinations extends ListActivity
 			}
 		});
 		return builder.create();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		menu.add(Menu.NONE, Menu.NONE, Menu.NONE, R.string.delete_all);
+		return(super.onCreateOptionsMenu(menu));
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case Menu.NONE:
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(R.string.confirm_delete_divinations)
+				.setCancelable(false)
+				.setPositiveButton(R.string.yes,
+				new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int id)
+					{
+						deleteDiviantion();
+						Toast message = Toast.makeText(getApplicationContext(), R.string.divinations_deleted, Toast.LENGTH_SHORT);
+						View messageView = message.getView();
+						messageView.setBackgroundResource(R.drawable.button_pressed);
+						message.show();
+						setAdapter();
+					}
+
+					private void deleteDiviantion()
+					{
+						iChingSQLiteDBHelper.deleteDivinationById(divinationId);
+					}
+				}).setNegativeButton(R.string.no,
+				new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int id)
+					{
+						dialog.cancel();
+					}
+				});
+				AlertDialog create = builder.create();
+				create.show();
+				return Boolean.TRUE;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 	
 }

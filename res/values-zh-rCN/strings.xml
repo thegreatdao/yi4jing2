@@ -73,4 +73,7 @@
 	<string name="kan_gong">坎宫</string>
 	<string name="zhen_gong">震宫</string>
 	<string name="instruction_random">点击屏幕</string>
+	<string name="delete_all">删除全部</string>
+	<string name="confirm_delete_divinations">你确定要删除所有保存的记录吗？</string>
+	<string name="divinations_deleted">所有保存的记录都成功删除了!</string>
 </resources>

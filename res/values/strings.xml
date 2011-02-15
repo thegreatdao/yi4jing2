@@ -73,4 +73,7 @@
 	<string name="kan_gong">K\'an</string>
 	<string name="zhen_gong">Chen</string>
 	<string name="instruction_random">Click on the screen</string>
+	<string name="delete_all">Delete All</string>
+	<string name="confirm_delete_divinations">Do you want to delete all divinations?</string>
+	<string name="divinations_deleted">All divinations has been deleted!</string>
 </resources>
