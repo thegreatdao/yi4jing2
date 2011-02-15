@@ -1,8 +1,5 @@
 package iching.android.activities;
 
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 import iching.android.R;
 import iching.android.andengine.GuaSprite;
 import iching.android.persistence.IChingSQLiteDBHelper;
@@ -11,7 +8,6 @@ import iching.android.utils.IChingHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -61,8 +57,8 @@ import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class Randomizer extends LayoutGameActivity implements IAccelerometerListener, IOnSceneTouchListener, IOnMenuItemClickListener, IOnAreaTouchListener
 {
@@ -418,11 +414,9 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 			GuaSprite sprite = (GuaSprite)pTouchArea;
 			String icon = IChingHelper.getIconFromInt(sprite.getResourceId());
 			icon = "'" + icon + "'";
-			Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.ICON, icon, Locale.getDefault());
+			Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.ICON, icon);
 			Intent intent = new Intent(getApplicationContext(), Gua.class);
-			intent.putExtra(GUA_BODY, gua.get(GUA_BODY));
-			intent.putExtra(GUA_TITLE, gua.get(GUA_TITLE));
-			intent.putExtra(GUA_ICON, gua.get(GUA_ICON));
+			IChingHelper.setUpIntentWithGua(intent, gua);
 			startActivity(intent);
 			return true;
 		}

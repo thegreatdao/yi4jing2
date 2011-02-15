@@ -1,13 +1,77 @@
 package iching.android.activities;
 
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
-import static iching.android.R.drawable.*;
-import static iching.android.activities.Preferences.*;
+import static iching.android.R.drawable.hexagram1;
+import static iching.android.R.drawable.hexagram10;
+import static iching.android.R.drawable.hexagram11;
+import static iching.android.R.drawable.hexagram12;
+import static iching.android.R.drawable.hexagram13;
+import static iching.android.R.drawable.hexagram14;
+import static iching.android.R.drawable.hexagram15;
+import static iching.android.R.drawable.hexagram16;
+import static iching.android.R.drawable.hexagram17;
+import static iching.android.R.drawable.hexagram18;
+import static iching.android.R.drawable.hexagram19;
+import static iching.android.R.drawable.hexagram2;
+import static iching.android.R.drawable.hexagram20;
+import static iching.android.R.drawable.hexagram21;
+import static iching.android.R.drawable.hexagram22;
+import static iching.android.R.drawable.hexagram23;
+import static iching.android.R.drawable.hexagram24;
+import static iching.android.R.drawable.hexagram25;
+import static iching.android.R.drawable.hexagram26;
+import static iching.android.R.drawable.hexagram27;
+import static iching.android.R.drawable.hexagram28;
+import static iching.android.R.drawable.hexagram29;
+import static iching.android.R.drawable.hexagram3;
+import static iching.android.R.drawable.hexagram30;
+import static iching.android.R.drawable.hexagram31;
+import static iching.android.R.drawable.hexagram32;
+import static iching.android.R.drawable.hexagram33;
+import static iching.android.R.drawable.hexagram34;
+import static iching.android.R.drawable.hexagram35;
+import static iching.android.R.drawable.hexagram36;
+import static iching.android.R.drawable.hexagram37;
+import static iching.android.R.drawable.hexagram38;
+import static iching.android.R.drawable.hexagram39;
+import static iching.android.R.drawable.hexagram4;
+import static iching.android.R.drawable.hexagram40;
+import static iching.android.R.drawable.hexagram41;
+import static iching.android.R.drawable.hexagram42;
+import static iching.android.R.drawable.hexagram43;
+import static iching.android.R.drawable.hexagram44;
+import static iching.android.R.drawable.hexagram45;
+import static iching.android.R.drawable.hexagram46;
+import static iching.android.R.drawable.hexagram47;
+import static iching.android.R.drawable.hexagram48;
+import static iching.android.R.drawable.hexagram49;
+import static iching.android.R.drawable.hexagram5;
+import static iching.android.R.drawable.hexagram50;
+import static iching.android.R.drawable.hexagram51;
+import static iching.android.R.drawable.hexagram52;
+import static iching.android.R.drawable.hexagram53;
+import static iching.android.R.drawable.hexagram54;
+import static iching.android.R.drawable.hexagram55;
+import static iching.android.R.drawable.hexagram56;
+import static iching.android.R.drawable.hexagram57;
+import static iching.android.R.drawable.hexagram58;
+import static iching.android.R.drawable.hexagram59;
+import static iching.android.R.drawable.hexagram6;
+import static iching.android.R.drawable.hexagram60;
+import static iching.android.R.drawable.hexagram61;
+import static iching.android.R.drawable.hexagram62;
+import static iching.android.R.drawable.hexagram63;
+import static iching.android.R.drawable.hexagram64;
+import static iching.android.R.drawable.hexagram7;
+import static iching.android.R.drawable.hexagram8;
+import static iching.android.R.drawable.hexagram9;
+import static iching.android.R.drawable.yinyang;
+import static iching.android.activities.Preferences.DEFAULT_VALUE_VIEW;
+import static iching.android.activities.Preferences.KEY_VIEW;
+import static iching.android.activities.Preferences.getStringValue;
 import iching.android.R;
 import iching.android.bean.Hexagram;
 import iching.android.persistence.IChingSQLiteDBHelper;
+import iching.android.utils.IChingHelper;
 import iching.android.viewadapters.IChingGridViewAdapter;
 
 import java.util.ArrayList;
@@ -20,20 +84,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class IChingView extends Activity
 {
@@ -58,7 +122,7 @@ public class IChingView extends Activity
 		final Locale locale = Locale.getDefault();
 		setListView(iChingSQLiteDBHelper, locale);
 		viewSwitcher = (ViewSwitcher) findViewById(R.id.iching_view_switcher);
-		setGridView(iChingSQLiteDBHelper, locale);
+		setGridView(iChingSQLiteDBHelper);
 		isGridView = getStringValue(this, KEY_VIEW, DEFAULT_VALUE_VIEW).equals("0");
 		if(!isGridView)
 		{
@@ -111,7 +175,7 @@ public class IChingView extends Activity
 		ListView listView = (ListView) findViewById(R.id.hexagrams_list_view);
 		listView.setAdapter(new HexagramAdapter(this, R.layout.list_item, getHexagrams(titles, HEXAGRAM_ICONS)));
 		registerForContextMenu(listView);
-		setOnItemClickListener(iChingSQLiteDBHelper, locale, listView);
+		setOnItemClickListener(iChingSQLiteDBHelper, listView);
 		return listView;
 	}
 	
@@ -130,33 +194,30 @@ public class IChingView extends Activity
 		return result;
 	}
 	
-	private GridView setGridView(final IChingSQLiteDBHelper iChingSQLiteDBHelper, final Locale locale)
+	private GridView setGridView(final IChingSQLiteDBHelper iChingSQLiteDBHelper)
 	{
 		GridView gridView = (GridView)findViewById(R.id.hexagrams_grid_view);
 		registerForContextMenu(gridView);
 		gridView.setAdapter(new IChingGridViewAdapter(this));
-		setOnItemClickListener(iChingSQLiteDBHelper, locale, gridView);
+		setOnItemClickListener(iChingSQLiteDBHelper, gridView);
 		return gridView;
 	}
 	
-	private void setOnItemClickListener(final IChingSQLiteDBHelper iChingSQLiteDBHelper, final Locale locale, AdapterView<?> adapterView)
+	private void setOnItemClickListener(final IChingSQLiteDBHelper iChingSQLiteDBHelper, AdapterView<?> adapterView)
 	{
 		adapterView.setOnItemClickListener(
 			new OnItemClickListener(){
 				public void onItemClick(AdapterView<?> parent, View v, int position, long id)
 				{
 					final Intent intent = new Intent(getApplicationContext(), Gua.class);
-					setUpHexagram(iChingSQLiteDBHelper, locale, intent, position);
+					setUpHexagram(iChingSQLiteDBHelper, intent, position);
 				}
 
 				private void setUpHexagram(
-						final IChingSQLiteDBHelper iChingSQLiteDBHelper,
-						final Locale locale, final Intent intent, int position)
+						final IChingSQLiteDBHelper iChingSQLiteDBHelper, final Intent intent, int position)
 				{
-					Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.ID, position + 1, locale);
-					intent.putExtra(GUA_BODY, gua.get(GUA_BODY));
-					intent.putExtra(GUA_TITLE, gua.get(GUA_TITLE));
-					intent.putExtra(GUA_ICON, gua.get(GUA_ICON));
+					Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.ID, position + 1);
+					IChingHelper.setUpIntentWithGua(intent, gua);
 					startActivity(intent);
 				}
 			}

@@ -39,6 +39,10 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public static final String GUA_BODY = "guaBody";
 	public static final String GUA_TITLE = "guaTitle";
 	public static final String GUA_ICON = "guaIcon";
+	public static final String GUA_BODY_CN = "guaBodyCN";
+	public static final String GUA_TITLE_CN = "guaTitleCN";
+	public static final String GUA_BODY_TW = "guaBodyTW";
+	public static final String GUA_TITLE_TW = "guaTitleTW";
 	public static final String QUESTION = "question";
 	public static final String CREATED_TIME = "created_time";
 	public static final String ORIGINAL_LINES = "lines";
@@ -197,6 +201,26 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 			gua.put(GUA_TITLE, cursor.getString(1));
 			gua.put(GUA_ICON, cursor.getString(2));
 			gua.put(ID, new Integer(cursor.getInt(3)).toString());
+		}
+		cursor.close();
+		return gua;
+	}
+	
+	public Map<String, String> selectOneGuaByField(String fieldName, Object value)
+	{
+		Map<String, String> gua = new HashMap<String, String>();
+		Cursor cursor = sqLiteDatabase.query(TABLE_GUA, new String[]{EN, CN, TW, TITLE_EN, TITLE_CN, TITLE_TW, ICON, ID}, fieldName + "=" + value, null, null, null, null);
+		if(cursor.getCount() != 0)
+		{
+			cursor.moveToFirst();
+			gua.put(GUA_BODY, cursor.getString(0));
+			gua.put(GUA_BODY_CN, cursor.getString(1));
+			gua.put(GUA_BODY_TW, cursor.getString(2));
+			gua.put(GUA_TITLE, cursor.getString(3));
+			gua.put(GUA_TITLE_CN, cursor.getString(4));
+			gua.put(GUA_TITLE_TW, cursor.getString(5));
+			gua.put(GUA_ICON, cursor.getString(6));
+			gua.put(ID, new Integer(cursor.getInt(7)).toString());
 		}
 		cursor.close();
 		return gua;

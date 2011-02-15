@@ -5,7 +5,6 @@ import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.utils.IChingHelper;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Map;
 
 import android.app.Activity;
@@ -50,8 +49,7 @@ public class Divination extends Activity implements OnClickListener
 		relatingImageViews.add((ImageView)findViewById(R.id.yao_5));
 		displayHexagramByLines(lines, changingLines, Boolean.TRUE, originalImageViews);
 		IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.FALSE);
-		Locale locale = Locale.getDefault();
-		originalGua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.GUA_CODE, "'" + lines + "'", locale);
+		originalGua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.GUA_CODE, "'" + lines + "'");
 		String originalTitle = originalGua.get(IChingSQLiteDBHelper.GUA_TITLE);
 		TextView originalTitleTextView = (TextView)findViewById(R.id.gua_title);
 		originalTitleTextView.setText(originalTitle);
@@ -59,7 +57,7 @@ public class Divination extends Activity implements OnClickListener
 		if(changingLines.trim().length() != 0)
 		{
 			displayHexagramByLines(lines, changingLines, Boolean.FALSE, relatingImageViews);
-			relatingGua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.GUA_CODE, "'" + IChingHelper.getRelatingCode(lines, changingLines) + "'", locale);
+			relatingGua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.GUA_CODE, "'" + IChingHelper.getRelatingCode(lines, changingLines) + "'");
 			String relatingTitle = relatingGua.get(IChingSQLiteDBHelper.GUA_TITLE);
 			TextView relatingTitleTextView = (TextView)findViewById(R.id.gua_title2);
 			relatingTitleTextView.setText(relatingTitle);
@@ -132,9 +130,7 @@ public class Divination extends Activity implements OnClickListener
 	private void loadHexagram(Map<String, String> gua)
 	{
 		Intent intent = new Intent(this, Gua.class);
-		intent.putExtra(IChingSQLiteDBHelper.GUA_TITLE, gua.get(IChingSQLiteDBHelper.GUA_TITLE));
-		intent.putExtra(IChingSQLiteDBHelper.GUA_BODY, gua.get(IChingSQLiteDBHelper.GUA_BODY));
-		intent.putExtra(IChingSQLiteDBHelper.GUA_ICON, gua.get(IChingSQLiteDBHelper.GUA_ICON));
+		IChingHelper.setUpIntentWithGua(intent, gua);
 		startActivity(intent);
 	}
 }

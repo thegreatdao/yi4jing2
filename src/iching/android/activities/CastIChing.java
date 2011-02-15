@@ -1,8 +1,6 @@
 package iching.android.activities;
 
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_CODE;
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 import static iching.android.persistence.IChingSQLiteDBHelper.ID;
 import static iching.android.persistence.IChingSQLiteDBHelper.TABLE_DIVINATION;
@@ -165,9 +163,7 @@ public class CastIChing extends Activity implements OnClickListener
 			hexagram = originalHexagram;
 		}
 		Intent intent = new Intent(getApplicationContext(), Gua.class);
-		intent.putExtra(GUA_BODY, hexagram.get(GUA_BODY));
-		intent.putExtra(GUA_TITLE, hexagram.get(GUA_TITLE));
-		intent.putExtra(GUA_ICON, hexagram.get(GUA_ICON));
+		IChingHelper.setUpIntentWithGua(intent, hexagram);
 		startActivity(intent);
 	}
 	
@@ -267,9 +263,8 @@ public class CastIChing extends Activity implements OnClickListener
 										@Override
 										public void run()
 										{
-											Locale locale = Locale.getDefault();
 											String originalHexgramCode = getOriginalCodes(originalHexagramLines);
-											originalHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + originalHexgramCode + "'", locale);
+											originalHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + originalHexgramCode + "'");
 											TextView originalTitle = (TextView) findViewById(R.id.gua_title);
 											originalTitle.setText(originalHexagram.get(GUA_TITLE));
 											button.setText(R.string.restCoin);
@@ -277,7 +272,7 @@ public class CastIChing extends Activity implements OnClickListener
 											if(relatingHexagramExists(originalHexagramLines))
 											{
 												displayRelatingHexagram(originalHexagramLines);
-												relatingHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + relatingHexgramCode + "'", locale);
+												relatingHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + relatingHexgramCode + "'");
 												TextView relatingTitle = (TextView) findViewById(R.id.gua_title2);
 												relatingTitle.setText(relatingHexagram.get(GUA_TITLE));
 											}

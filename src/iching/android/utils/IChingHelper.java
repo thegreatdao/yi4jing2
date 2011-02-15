@@ -1,8 +1,18 @@
 package iching.android.utils;
 
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY_CN;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_BODY_TW;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE_CN;
+import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE_TW;
 import iching.android.R;
 
 import java.lang.reflect.Field;
+import java.util.Map;
+
+import android.content.Intent;
 
 public class IChingHelper
 {
@@ -69,5 +79,17 @@ public class IChingHelper
 			}
 		}
 		return new String(originalCodeArray);
+	}
+	
+	public static Intent setUpIntentWithGua(Intent intent, Map<String, String> gua)
+	{
+		intent.putExtra(GUA_BODY, gua.get(GUA_BODY));
+		intent.putExtra(GUA_TITLE, gua.get(GUA_TITLE));
+		intent.putExtra(GUA_BODY_CN, gua.get(GUA_BODY_CN));
+		intent.putExtra(GUA_TITLE_CN, gua.get(GUA_TITLE_CN));
+		intent.putExtra(GUA_BODY_TW, gua.get(GUA_BODY_TW));
+		intent.putExtra(GUA_TITLE_TW, gua.get(GUA_TITLE_TW));
+		intent.putExtra(GUA_ICON, gua.get(GUA_ICON));
+		return intent;
 	}
 }
