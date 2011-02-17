@@ -17,11 +17,13 @@ import java.util.Map;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -347,6 +349,27 @@ public class CastIChing extends Activity implements OnClickListener
 						int yaoSource = getYaoSource(coins, originalHexagramLines, tossTimes - 1);
 						yao.setImageResource(yaoSource);
 						yao.setVisibility(View.VISIBLE);
+						Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+					/*	int dot = 200;		// Length of a Morse Code "dot" in milliseconds
+						int dash = 500;		// Length of a Morse Code "dash" in milliseconds
+						int short_gap = 200;	// Length of Gap Between dots/dashes
+						int medium_gap = 500;	// Length of Gap Between Letters
+						int long_gap = 1000;	// Length of Gap Between Words
+						long[] pattern = {
+							0, 	// Start immediately
+							dot, short_gap, dot, short_gap, dot, 	// s
+							medium_gap,
+							dash, short_gap, dash, short_gap, dash, // o
+							medium_gap,
+							dot, short_gap, dot, short_gap, dot, 	// s
+							long_gap
+						};*/
+						int dot = 10;		// Length of a Morse Code "dot" in milliseconds
+						long[] pattern = {
+							0, 	// Start immediately
+							dot
+						};
+						vibrator.vibrate(pattern, -1);
 					}
 					
 					private int getYaoSource(int[] coins, Line[] originalHexagram, int index)

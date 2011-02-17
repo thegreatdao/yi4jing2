@@ -142,7 +142,7 @@ public class Divinations extends ListActivity
 
 					private void deleteDiviantion()
 					{
-						iChingSQLiteDBHelper.deleteDivinationById(divinationId);
+						iChingSQLiteDBHelper.deleteAll(IChingSQLiteDBHelper.TABLE_DIVINATION);
 					}
 				}).setNegativeButton(R.string.no,
 				new DialogInterface.OnClickListener()

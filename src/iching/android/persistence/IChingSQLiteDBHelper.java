@@ -262,6 +262,11 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		return divinations;
 	}
 	
+	public int deleteAll(String tableName)
+	{		
+		return sqLiteDatabase.delete(tableName, "1", null);
+	}
+	
 	public long insertDivination(String lines, String changingLines, String question, int originalIcon, int changingIcon)
 	{
 		sqLiteStatement.bindString(1, lines);
