@@ -34,7 +34,8 @@
 		android:background="@drawable/image_background"/>
 	<ScrollView
 	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content">
+	  android:layout_height="wrap_content"
+	  android:id="@+id/gua_body">
 	  <TextView 
 	  	android:id="@+id/gua_content"
 	  	android:layout_width="fill_parent"

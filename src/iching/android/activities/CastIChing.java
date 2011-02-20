@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,6 +23,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Matrix;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -32,7 +38,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CastIChing extends Activity implements OnClickListener
+public class CastIChing extends Activity implements OnClickListener, SensorEventListener
 {
 	private Handler handler;
 	private int threadCount;
@@ -56,11 +62,16 @@ public class CastIChing extends Activity implements OnClickListener
 	private int firstCoinImage;
 	private int secondCoinImage;
 	private int thirdCoinImage;
-
+	private SensorManager sensorManager;
+	private final double FORCE_THRESHOLD = 2.6;
+	private boolean canShake;
+	private ExecutorService threadPool;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		canShake= Boolean.TRUE;
 		setContentView(R.layout.cast_iching);
 		Button button = (Button) findViewById(R.id.tossCoin);
 		TextView guaTitle = (TextView) findViewById(R.id.gua_title);
@@ -70,11 +81,15 @@ public class CastIChing extends Activity implements OnClickListener
 		button.setOnClickListener(this);
 		guaTitle.setOnClickListener(this);
 		guaTitle2.setOnClickListener(this);
-		saveDivinationButton.setOnClickListener(this);
+		saveDivinationButton.setOnClickListener(this);		
 		collectAllLines();
 		collectAllCoins();
 		handler = new Handler();
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.TRUE);
+		Toast message = Toast.makeText(this, getString(R.string.instruction_cast_Iching), Toast.LENGTH_SHORT);
+		View messageView = message.getView();
+		messageView.setBackgroundResource(R.drawable.button_pressed);
+		message.show();
 	}
 
 	private void collectAllTitles(TextView guaTitle, TextView guaTitle2)
@@ -217,7 +232,8 @@ public class CastIChing extends Activity implements OnClickListener
 	{
 		final Button button = (Button) findViewById(R.id.tossCoin);
 		button.setClickable(Boolean.FALSE);
-		Thread thread = new Thread(new Runnable()
+		canShake = Boolean.FALSE;
+		Runnable tossCoinRunnable = new Runnable()
 		{
 			@Override
 			public void run()
@@ -229,7 +245,7 @@ public class CastIChing extends Activity implements OnClickListener
 					tossCoins(i);
 					threadCount++;
 				}
-				Thread ichingChecker = new Thread(new Runnable()
+				Runnable ichingChecker = new Runnable()
 				{
 					
 					@Override
@@ -243,14 +259,15 @@ public class CastIChing extends Activity implements OnClickListener
 								run = false;
 								threadCount = 0;
 								final int[] coins = {firstCoinImage, secondCoinImage, thirdCoinImage};
-								Thread setYaoThread = new Thread(new Runnable(){
+								Runnable setYaoRunnable = new Runnable(){
 									@Override
 									public void run()
 									{
 										setYao(coins);
+										canShake = Boolean.TRUE;
 									}
-								});
-								handler.post(setYaoThread);
+								};
+								handler.post(setYaoRunnable);
 								button.setClickable(Boolean.TRUE);
 								if(tossTimes != 6)
 								{
@@ -259,7 +276,7 @@ public class CastIChing extends Activity implements OnClickListener
 								else
 								{
 									action = 1;
-									Thread showRelatingHexgram = new Thread(new Runnable()
+									Runnable showRelatingHexgramRunnable = new Runnable()
 									{
 										
 										@Override
@@ -280,8 +297,9 @@ public class CastIChing extends Activity implements OnClickListener
 											}
 											saveDivinationButton.setVisibility(View.VISIBLE);
 										}
-									});
-									handler.post(showRelatingHexgram);
+									};
+									handler.post(showRelatingHexgramRunnable);
+									canShake = Boolean.FALSE;
 								}
 							}
 						}
@@ -349,28 +367,14 @@ public class CastIChing extends Activity implements OnClickListener
 						int yaoSource = getYaoSource(coins, originalHexagramLines, tossTimes - 1);
 						yao.setImageResource(yaoSource);
 						yao.setVisibility(View.VISIBLE);
-						Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-					/*	int dot = 200;		// Length of a Morse Code "dot" in milliseconds
-						int dash = 500;		// Length of a Morse Code "dash" in milliseconds
-						int short_gap = 200;	// Length of Gap Between dots/dashes
-						int medium_gap = 500;	// Length of Gap Between Letters
-						int long_gap = 1000;	// Length of Gap Between Words
-						long[] pattern = {
-							0, 	// Start immediately
-							dot, short_gap, dot, short_gap, dot, 	// s
-							medium_gap,
-							dash, short_gap, dash, short_gap, dash, // o
-							medium_gap,
-							dot, short_gap, dot, short_gap, dot, 	// s
-							long_gap
-						};*/
 						int dot = 10;		// Length of a Morse Code "dot" in milliseconds
 						long[] pattern = {
-							0, 	// Start immediately
-							dot
+								0, 	// Start immediately
+								dot
 						};
-						vibrator.vibrate(pattern, -1);
+						vibrate(pattern);
 					}
+
 					
 					private int getYaoSource(int[] coins, Line[] originalHexagram, int index)
 					{
@@ -416,11 +420,11 @@ public class CastIChing extends Activity implements OnClickListener
 						originalHexagram[index] = line;
 						return IChingHelper.getId(result, R.drawable.class);
 					}
-				});
-				ichingChecker.start();
+				};
+				threadPool.submit(ichingChecker);
 			}
-		});
-		thread.start();
+		};
+		threadPool.submit(tossCoinRunnable);
 	}
 	
 	private void tossCoins(int counter)
@@ -430,11 +434,11 @@ public class CastIChing extends Activity implements OnClickListener
 		final ImageView thirdCoin = (ImageView)findViewById(R.id.third_coin);
 		
 		int headOrTailFirst = headOrTail();		
-		handler.post(new TossCoinThread(firstCoin, headOrTailFirst));
+		handler.post(new TossCoinRunnable(firstCoin, headOrTailFirst));
 		int headOrTailSecond = headOrTail();
-		handler.post(new TossCoinThread(secondCoin, headOrTailSecond));
+		handler.post(new TossCoinRunnable(secondCoin, headOrTailSecond));
 		int headOrTailThird = headOrTail();
-		handler.post(new TossCoinThread(thirdCoin, headOrTailThird));
+		handler.post(new TossCoinRunnable(thirdCoin, headOrTailThird));
 		if(counter + 1 == FLIP_COIN_TIMES)
 		{
 			firstCoinImage = headOrTailFirst;
@@ -478,6 +482,7 @@ public class CastIChing extends Activity implements OnClickListener
 		threadCount = 0;
 		tossTimes = 0;
 		originalHexagramLines = new Line[6];
+		canShake = Boolean.TRUE;
 	}
 	
 	private void saveDivination(String lines, String changingLines, String question)
@@ -511,12 +516,12 @@ public class CastIChing extends Activity implements OnClickListener
 		return Integer.parseInt(gua.get(ID)) - 1;
 	}
 	
-	private class TossCoinThread extends Thread
+	private class TossCoinRunnable implements Runnable
 	{
 		private ImageView coin;
 		private int source;
 		
-		TossCoinThread(ImageView coin, int source)
+		TossCoinRunnable(ImageView coin, int source)
 		{
 			this.coin = coin;
 			this.source = source;
@@ -590,5 +595,74 @@ public class CastIChing extends Activity implements OnClickListener
 			index++;
 		}
 		return positions.toString();
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent sensorEvent)
+	{
+		if(sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER && canShake && tossTimes != 6)
+		{
+			float xAxis = sensorEvent.values[SensorManager.DATA_X];
+			float yAxis = sensorEvent.values[SensorManager.DATA_Y];
+			float zAxis = sensorEvent.values[SensorManager.DATA_Z];
+			float gravityEarth = SensorManager.GRAVITY_EARTH;
+			double totalForce = Math.pow(xAxis/gravityEarth, 2);
+			totalForce += Math.pow(yAxis/gravityEarth, 2);
+			totalForce += Math.pow(zAxis/gravityEarth, 2);
+			totalForce = Math.sqrt(totalForce);
+			if(totalForce > FORCE_THRESHOLD)
+			{
+				int dot = 100;		// Length of a Morse Code "dot" in milliseconds
+				long[] pattern = {
+						0, 	// Start immediately
+						dot
+				};
+				vibrate(pattern);
+				tossCoin();
+			}
+		}
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor arg0, int arg1)
+	{
+		
+	}
+	
+	private void vibrate(long[] pattern)
+	{
+		Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+		/*	int dot = 200;		// Length of a Morse Code "dot" in milliseconds
+						int dash = 500;		// Length of a Morse Code "dash" in milliseconds
+						int short_gap = 200;	// Length of Gap Between dots/dashes
+						int medium_gap = 500;	// Length of Gap Between Letters
+						int long_gap = 1000;	// Length of Gap Between Words
+						long[] pattern = {
+							0, 	// Start immediately
+							dot, short_gap, dot, short_gap, dot, 	// s
+							medium_gap,
+							dash, short_gap, dash, short_gap, dash, // o
+							medium_gap,
+							dot, short_gap, dot, short_gap, dot, 	// s
+							long_gap
+						};*/		
+		vibrator.vibrate(pattern, -1);
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		threadPool = Executors.newCachedThreadPool();
+		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+	}
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		threadPool.shutdownNow();
+		sensorManager.unregisterListener(this);
 	}
 }
