@@ -207,7 +207,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 
 		if(count < 8)
 		{
-			texture = new Texture(128, 128, TextureOptions.BILINEAR);
+			texture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 			mEngine.getTextureManager().loadTexture(texture);
 			int id = IChingHelper.getId(guas[count], R.drawable.class);
 			String name = IChingHelper.getIconFromInt(id) + SUFFIX;
