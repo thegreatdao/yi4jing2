@@ -77,6 +77,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	private String[] guas;
 	private List<Sprite> guasOnScreen = new ArrayList<Sprite>();
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
+	private static final String SUFFIX = ".png";
 	
 	private static final int QIAN_GONG = 1;
 	private static final int ZHEN_GONG = 2;
@@ -107,6 +108,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	{
 		Texture mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		FontFactory.setAssetBasePath("font/");
+		TextureRegionFactory.setAssetBasePath("gfx/");
 		font = FontFactory.createFromAsset(mFontTexture, this, "Plok.ttf", 36, true, Color.RED);
 		this.mEngine.getTextureManager().loadTexture(mFontTexture);
 		this.mEngine.getFontManager().loadFont(font);
@@ -139,10 +141,10 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		PhysicsFactory.createBoxBody(physicsWorld, right,
 				BodyType.StaticBody, wallFixtureDef);
 
-		scene.getBottomLayer().addEntity(ground);
-		scene.getBottomLayer().addEntity(left);
-		scene.getBottomLayer().addEntity(roof);
-		scene.getBottomLayer().addEntity(right);
+		scene.getFirstChild().attachChild(ground);
+		scene.getFirstChild().attachChild(left);
+		scene.getLastChild().attachChild(roof);
+		scene.getLastChild().attachChild(right);
 
 		scene.registerUpdateHandler(physicsWorld);
 		scene.setOnAreaTouchListener(this);
@@ -208,7 +210,8 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 			texture = new Texture(128, 128, TextureOptions.BILINEAR);
 			mEngine.getTextureManager().loadTexture(texture);
 			int id = IChingHelper.getId(guas[count], R.drawable.class);
-			TextureRegion guaTextureRegion = TextureRegionFactory.createFromResource(texture, this, id, 0, 0);
+			String name = IChingHelper.getIconFromInt(id) + SUFFIX;
+			TextureRegion guaTextureRegion = TextureRegionFactory.createFromAsset(texture, this, name, 0, 0);
 			if((pX + WIDTH_HEIGHT_ICON/2) > CAMERA_WIDTH)
 			{
 				pX = CAMERA_WIDTH - WIDTH_HEIGHT_ICON;
@@ -220,10 +223,9 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 			GuaSprite gua = new GuaSprite(pX, pY, guaTextureRegion, id);
 			Body body = PhysicsFactory.createBoxBody(physicsWorld, gua, BodyType.DynamicBody, FIXTURE_DEF);
 			guasOnScreen.add(gua);
-			gua.setUpdatePhysics(false);
 			scene.registerTouchArea(gua);
-			scene.getTopLayer().addEntity(gua);
-			physicsWorld.registerPhysicsConnector(new PhysicsConnector(gua, body, true, true, true, true));
+			scene.getLastChild().attachChild(gua);
+			physicsWorld.registerPhysicsConnector(new PhysicsConnector(gua, body, true, true));
 		}
 		count++;
 	}
@@ -245,7 +247,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 					physicsWorld.unregisterPhysicsConnector(guaPhysicsConnector);
 					physicsWorld.destroyBody(guaPhysicsConnector.getBody());
 					scene.unregisterTouchArea(icon);
-					scene.getTopLayer().removeEntity(icon);
+					scene.getLastChild().detachChild(icon);
 				}
 			});
 			
