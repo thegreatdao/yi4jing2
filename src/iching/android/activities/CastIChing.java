@@ -63,7 +63,7 @@ public class CastIChing extends Activity implements OnClickListener, SensorEvent
 	private int secondCoinImage;
 	private int thirdCoinImage;
 	private SensorManager sensorManager;
-	private final double FORCE_THRESHOLD = 2.6;
+	private final double FORCE_THRESHOLD = 1.3;
 	private boolean canShake;
 	private ExecutorService threadPool;
 	

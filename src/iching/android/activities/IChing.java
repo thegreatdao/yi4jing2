@@ -127,6 +127,8 @@ public class IChing extends Activity implements OnClickListener
 				startActivity(aboutIntent);
 				break;
 			case R.id.exit:
+				/*Intent threeDIntent = new Intent(this, IChingOpenGL.class);
+				startActivity(threeDIntent);*/
 				showDialog(0);
 				break;
 			default:

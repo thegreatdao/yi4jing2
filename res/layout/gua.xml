@@ -9,6 +9,17 @@
 		android:layout_height="wrap_content"
 		android:gravity="right">
 		<ImageView
+			android:id="@+id/left_arrow"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/ar"/>
+		<ImageView
+			android:id="@+id/cn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/cn"
+			android:layout_marginLeft="20dip"/>
+		<ImageView
 			android:id="@+id/us"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
