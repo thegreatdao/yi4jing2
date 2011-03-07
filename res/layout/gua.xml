@@ -4,40 +4,47 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
   android:orientation="vertical">
-	<LinearLayout
+	<TableLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:gravity="right">
-		<ImageView
-			android:id="@+id/left_arrow"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="@drawable/ar"/>
-		<ImageView
-			android:id="@+id/cn"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="@drawable/cn"
-			android:layout_marginLeft="20dip"/>
-		<ImageView
-			android:id="@+id/us"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="@drawable/us"/>
-		<ImageView
-			android:id="@+id/cn"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="@drawable/cn"
-			android:layout_marginLeft="20dip"/>
-		<ImageView
-			android:id="@+id/hk"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="@drawable/hk"
-			android:layout_marginLeft="20dip"
-			android:layout_marginRight="20dip"/>
-	</LinearLayout>		
+		android:stretchColumns="0, 1">
+			<TableRow>
+				<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+					<ImageView
+						android:id="@+id/left_arrow"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:src="@drawable/arrowleft"
+						android:layout_marginLeft="20dip"/>
+					<ImageView
+						android:id="@+id/right_arrow"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:src="@drawable/arrowright"
+						android:layout_marginLeft="20dip"/>
+				</LinearLayout>
+				<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="right">
+					<ImageView
+						android:id="@+id/us"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:src="@drawable/us"/>
+					<ImageView
+						android:id="@+id/cn"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:src="@drawable/cn"
+						android:layout_marginLeft="20dip"/>
+					<ImageView
+						android:id="@+id/hk"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:src="@drawable/hk"
+						android:layout_marginLeft="20dip"
+						android:layout_marginRight="20dip"/>
+				</LinearLayout>
+			</TableRow>
+	</TableLayout>		
 	<ImageView
 		android:id="@+id/gua_icon"
 		android:layout_width="fill_parent"

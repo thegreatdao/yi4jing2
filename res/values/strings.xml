@@ -78,4 +78,5 @@
 	<string name="divinations_deleted">All saved divinations have been deleted!</string>
 	<string name="instruction_cast_Iching">You can shake your phone or click on the toss button to cast</string>
 	<string name="iching_opengl">3d</string>
+	<string name="end_of_records">No more records</string>
 </resources>

@@ -7,6 +7,7 @@ import static iching.android.persistence.IChingSQLiteDBHelper.GUA_ICON;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE_CN;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE_TW;
+import static iching.android.persistence.IChingSQLiteDBHelper.ID;
 import iching.android.R;
 
 import java.lang.reflect.Field;
@@ -90,6 +91,7 @@ public class IChingHelper
 		intent.putExtra(GUA_BODY_TW, gua.get(GUA_BODY_TW));
 		intent.putExtra(GUA_TITLE_TW, gua.get(GUA_TITLE_TW));
 		intent.putExtra(GUA_ICON, gua.get(GUA_ICON));
+		intent.putExtra(ID, gua.get(ID));
 		return intent;
 	}
 }
