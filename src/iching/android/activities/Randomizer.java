@@ -22,7 +22,7 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.Scene.ITouchArea;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.RepeatingSpriteBackground;
 import org.anddev.andengine.entity.scene.menu.MenuScene;
 import org.anddev.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.anddev.andengine.entity.scene.menu.item.IMenuItem;
@@ -42,6 +42,7 @@ import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.opengl.texture.source.AssetTextureSource;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.activity.LayoutGameActivity;
@@ -57,8 +58,8 @@ import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public class Randomizer extends LayoutGameActivity implements IAccelerometerListener, IOnSceneTouchListener, IOnMenuItemClickListener, IOnAreaTouchListener
 {
@@ -77,6 +78,7 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	private String[] guas;
 	private List<Sprite> guasOnScreen = new ArrayList<Sprite>();
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
+	private RepeatingSpriteBackground transparentBackground;
 	private static final String SUFFIX = ".png";
 	
 	private static final int QIAN_GONG = 1;
@@ -109,6 +111,8 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		Texture mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		FontFactory.setAssetBasePath("font/");
 		TextureRegionFactory.setAssetBasePath("gfx/");
+		transparentBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, mEngine.getTextureManager(), new AssetTextureSource(this, "gfx/bg.png"));
+
 		font = FontFactory.createFromAsset(mFontTexture, this, "Plok.ttf", 36, true, Color.RED);
 		this.mEngine.getTextureManager().loadTexture(mFontTexture);
 		this.mEngine.getFontManager().loadFont(font);
@@ -122,7 +126,8 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		mEngine.registerUpdateHandler(new FPSLogger());
 		final Scene scene = new Scene(2);
 		menuScene = createMenuScene();
-		scene.setBackground(new ColorBackground(1, 1, 1));
+//		scene.setBackground(new ColorBackground(1, 1, 1));
+		scene.setBackground(transparentBackground);		
 		scene.setOnSceneTouchListener(this);
 		physicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), true);
 		physicsWorld.setGravity(vector2);
