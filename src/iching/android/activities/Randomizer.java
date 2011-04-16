@@ -17,12 +17,19 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
+import org.anddev.andengine.entity.modifier.AlphaModifier;
+import org.anddev.andengine.entity.modifier.LoopEntityModifier;
+import org.anddev.andengine.entity.modifier.ParallelEntityModifier;
+import org.anddev.andengine.entity.modifier.PathModifier;
+import org.anddev.andengine.entity.modifier.PathModifier.Path;
+import org.anddev.andengine.entity.modifier.SequenceEntityModifier;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.Scene.ITouchArea;
-import org.anddev.andengine.entity.scene.background.RepeatingSpriteBackground;
+import org.anddev.andengine.entity.scene.background.AutoParallaxBackground;
+import org.anddev.andengine.entity.scene.background.ParallaxBackground.ParallaxEntity;
 import org.anddev.andengine.entity.scene.menu.MenuScene;
 import org.anddev.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.anddev.andengine.entity.scene.menu.item.IMenuItem;
@@ -30,7 +37,6 @@ import org.anddev.andengine.entity.scene.menu.item.TextMenuItem;
 import org.anddev.andengine.entity.scene.menu.item.decorator.ColorMenuItemDecorator;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.Sprite;
-import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnectorManager;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
@@ -42,7 +48,6 @@ import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.opengl.texture.source.AssetTextureSource;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.activity.LayoutGameActivity;
@@ -78,7 +83,6 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	private String[] guas;
 	private List<Sprite> guasOnScreen = new ArrayList<Sprite>();
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
-	private RepeatingSpriteBackground transparentBackground;
 	private static final String SUFFIX = ".png";
 	
 	private static final int QIAN_GONG = 1;
@@ -90,6 +94,10 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	private static final int LI_GONG = 7;
 	private static final int DUI_GONG = 8;
 	private static final int WIDTH_HEIGHT_ICON = 80;
+	private TextureRegion dragonTextureRegion;
+	private TextureRegion fireBallTextureRegion;
+	private TextureRegion parallaxLayerBackgroundTextureRegion;
+	private TextureRegion parallaxLayerBackgroundTextureRegion2;
 	
 	@Override
 	public Engine onLoadEngine()
@@ -111,10 +119,16 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		Texture mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		FontFactory.setAssetBasePath("font/");
 		TextureRegionFactory.setAssetBasePath("gfx/");
-		transparentBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, mEngine.getTextureManager(), new AssetTextureSource(this, "gfx/bg.png"));
-
+		Texture dragonTexture = new Texture(512, 512, TextureOptions.BILINEAR);
+		Texture fireBallTexture = new Texture(128, 128, TextureOptions.BILINEAR);
+		Texture cloudTexture = new Texture(512, 128, TextureOptions.DEFAULT);
+		Texture cloud2Texture = new Texture(512, 128, TextureOptions.DEFAULT);
+		dragonTextureRegion = TextureRegionFactory.createFromAsset(dragonTexture, this, "bg.png", 0, 0);
+		fireBallTextureRegion = TextureRegionFactory.createFromAsset(fireBallTexture, this, "fireball.png", 0, 0);
+		parallaxLayerBackgroundTextureRegion = TextureRegionFactory.createFromAsset(cloudTexture, this, "cloud2.png", 0, 0);
+		parallaxLayerBackgroundTextureRegion2 = TextureRegionFactory.createFromAsset(cloud2Texture, this, "cloud.png", 0, 0);
 		font = FontFactory.createFromAsset(mFontTexture, this, "Plok.ttf", 36, true, Color.RED);
-		this.mEngine.getTextureManager().loadTexture(mFontTexture);
+		this.mEngine.getTextureManager().loadTextures(mFontTexture, dragonTexture, fireBallTexture, cloudTexture, cloud2Texture);
 		this.mEngine.getFontManager().loadFont(font);
 		enableAccelerometerSensor(this);
 	}
@@ -122,13 +136,24 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	@Override
 	public Scene onLoadScene()
 	{
+		final AutoParallaxBackground autoParallaxBackground = new AutoParallaxBackground(1, 1, 1, 10);
+		autoParallaxBackground.attachParallaxEntity(new ParallaxEntity(3f, new Sprite(0, 0, parallaxLayerBackgroundTextureRegion2)));
+		autoParallaxBackground.attachParallaxEntity(new ParallaxEntity(2f, new Sprite(0, 20, parallaxLayerBackgroundTextureRegion)));
+		autoParallaxBackground.attachParallaxEntity(new ParallaxEntity(5f, new Sprite(0, 120, parallaxLayerBackgroundTextureRegion2)));
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(getApplicationContext(), Boolean.FALSE);
-		mEngine.registerUpdateHandler(new FPSLogger());
 		final Scene scene = new Scene(2);
 		menuScene = createMenuScene();
-//		scene.setBackground(new ColorBackground(1, 1, 1));
-		scene.setBackground(transparentBackground);		
+		scene.setBackground(autoParallaxBackground);
 		scene.setOnSceneTouchListener(this);
+		int dragonStartX = CAMERA_WIDTH / 2 - 158;
+		int dragonStartY = CAMERA_HEIGHT / 2 - 225;
+		Sprite dragon = new Sprite(dragonStartX, dragonStartY, dragonTextureRegion);
+		Sprite fireBall = new Sprite(100,100, fireBallTextureRegion);
+		Path fireBallPath = new Path(3).to(dragonStartX, dragonStartY + 180).to(dragonStartX, dragonStartY + 100).to(dragonStartX, dragonStartY + 180);
+		Path dragonPath = new Path(3).to(dragonStartX, dragonStartY).to(dragonStartX, dragonStartY - 60).to(dragonStartX, dragonStartY);
+		dragon.registerEntityModifier(new LoopEntityModifier(new PathModifier(6, dragonPath)));
+		SequenceEntityModifier sequenceEntityModifier = new SequenceEntityModifier(new AlphaModifier(1, 1, 0), new AlphaModifier(1, 0, 1), new AlphaModifier(1, 1, 0), new AlphaModifier(1, 0, 1), new AlphaModifier(1, 1, 0), new AlphaModifier(1, 0, 1));
+		fireBall.registerEntityModifier(new LoopEntityModifier(new ParallelEntityModifier(new PathModifier(6, fireBallPath), sequenceEntityModifier)));
 		physicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), true);
 		physicsWorld.setGravity(vector2);
 		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
@@ -137,15 +162,13 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
-		PhysicsFactory.createBoxBody(physicsWorld, ground,
-				BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(physicsWorld, left,
-				BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(physicsWorld, roof,
-				BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(physicsWorld, right,
-				BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(physicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(physicsWorld, left, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(physicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(physicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
+		scene.getFirstChild().attachChild(dragon);
+		scene.getFirstChild().attachChild(fireBall);
 		scene.getFirstChild().attachChild(ground);
 		scene.getFirstChild().attachChild(left);
 		scene.getLastChild().attachChild(roof);

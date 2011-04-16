@@ -137,6 +137,23 @@ public class Gua extends Activity
 				extras = intent.getExtras();
 				String bodyContent = gua.get(GUA_BODY);
 				String title = gua.get(GUA_TITLE);
+				if(language == 0)
+				{
+					Locale locale = Locale.getDefault();
+					if(locale.equals(Locale.CHINA))
+					{
+						language = LANG_CN;
+					}
+					else if(locale.equals(Locale.TAIWAN))
+					{
+						language = LANG_TW;
+					}
+					else
+					{
+						language = LANG_EN;
+					}
+				}
+				
 				if(language == LANG_CN)
 				{
 					bodyContent = gua.get(GUA_BODY_CN);
