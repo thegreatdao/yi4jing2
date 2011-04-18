@@ -79,4 +79,11 @@
 	<string name="instruction_cast_Iching">You can shake your phone or click on the toss button to cast</string>
 	<string name="iching_opengl">3d</string>
 	<string name="end_of_records">No more records</string>
+	<string name="sms">SMS</string>
+	<string name="sms_title">Send this divination to someone</string>
+	<string name="sms_number">Number</string>
+	<string name="sms_content">Content</string>
+	<string name="browse_contacts">Browse</string>
+	<string name="send_sms">Send</string>
+	<string name="sms_hint">Enter receiver\'s number</string>
 </resources>

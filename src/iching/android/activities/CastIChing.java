@@ -30,6 +30,9 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -665,5 +668,19 @@ public class CastIChing extends Activity implements OnClickListener, SensorEvent
 		threadPool.shutdownNow();
 		sensorManager.unregisterListener(this);
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.castiching_menu, menu);
+		return Boolean.TRUE;
+	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem)
+	{
+		startActivity(new Intent(this, DivinationSMS.class));
+		return Boolean.TRUE;
+	}
 }

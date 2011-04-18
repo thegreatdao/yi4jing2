@@ -2,10 +2,55 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
+  android:layout_height="fill_parent"
+  android:orientation="vertical">
     <TextView 
     	android:layout_height="wrap_content" 
-    	android:text="Enter a number" 
+    	android:text="@string/sms_title" 
     	android:layout_width="wrap_content" 
-    	android:layout_gravity="center_horizontal"/>
+    	android:layout_gravity="center_horizontal"
+    	android:textStyle="bold"
+    	android:textSize="16sp"/>
+   	<TextView 
+    	android:layout_height="wrap_content" 
+    	android:text="@string/sms_number" 
+    	android:layout_width="wrap_content"/>
+    <RelativeLayout
+	    android:layout_height="wrap_content"
+	    android:layout_width="wrap_content"
+	    android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip">
+	    <EditText
+	        android:layout_height="wrap_content"
+	        android:hint="@string/sms_hint"
+	        android:id="@+id/sms_number"
+	        android:layout_width="wrap_content"
+	        android:layout_toLeftOf="@+id/do_email_picker"
+	        android:layout_alignParentLeft="true"/>
+	    <Button
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/do_email_picker"
+	        android:text="@string/browse_contacts"
+	        android:layout_alignParentRight="true"/>
+	</RelativeLayout>
+	<TextView 
+	  	android:layout_height="wrap_content" 
+	  	android:text="@string/sms_content" 
+	  	android:layout_width="wrap_content"/>
+     <EditText
+	        android:id="@+id/sms_content"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="top"
+            android:singleLine="false"
+            android:lines="6"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"/>
+     <Button
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/send_sms"
+	        android:text="@string/send_sms"
+	        android:layout_gravity="center_horizontal"/>
 </LinearLayout>

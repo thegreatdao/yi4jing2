@@ -32,7 +32,7 @@
 		
 		<activity android:name=".activities.IChingOpenGL" android:label="@string/iching_opengl" android:screenOrientation="portrait"/>
 		
-		<activity android:name=".activities.DivinationSMS" android:label="@string/iching_opengl" android:screenOrientation="portrait"/>
+		<activity android:name=".activities.DivinationSMS" android:label="@string/sms" android:screenOrientation="portrait" android:theme="@style/Android.dialog"/>
 		
 		<service android:name=".service.MusicService" android:enabled="true"/>
 		
