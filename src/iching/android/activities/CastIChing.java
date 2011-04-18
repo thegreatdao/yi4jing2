@@ -665,4 +665,5 @@ public class CastIChing extends Activity implements OnClickListener, SensorEvent
 		threadPool.shutdownNow();
 		sensorManager.unregisterListener(this);
 	}
+	
 }

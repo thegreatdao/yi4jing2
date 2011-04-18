@@ -32,6 +32,8 @@
 		
 		<activity android:name=".activities.IChingOpenGL" android:label="@string/iching_opengl" android:screenOrientation="portrait"/>
 		
+		<activity android:name=".activities.DivinationSMS" android:label="@string/iching_opengl" android:screenOrientation="portrait"/>
+		
 		<service android:name=".service.MusicService" android:enabled="true"/>
 		
 		<provider android:name=".contentprovider.DivinationProvider" android:authorities="iching.android.contentprovider.Divinations"/>
