@@ -23,6 +23,21 @@
 		<item name="android:paddingBottom">6dip</item>
 	</style>
 	
+	<style name="smsButton" parent="textWrapper">
+		<item name="android:background">@drawable/button_cast</item>
+		<item name="android:textColor">@color/default_color</item>
+		<item name="android:height">40dip</item>
+		<item name="android:layout_marginLeft">10dip</item>
+		<item name="android:paddingTop">6dip</item>
+		<item name="android:paddingBottom">6dip</item>
+		<item name="android:paddingLeft">6dip</item>
+		<item name="android:paddingRight">6dip</item>
+	</style>
+	
+	<style name="smsButtonSend" parent="smsButton">
+		<item name="android:minWidth">100dip</item>
+	</style>
+	
     <style name="mainTitle" parent="textWrapper">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>

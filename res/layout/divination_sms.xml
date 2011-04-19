@@ -14,7 +14,8 @@
    	<TextView 
     	android:layout_height="wrap_content" 
     	android:text="@string/sms_number" 
-    	android:layout_width="wrap_content"/>
+    	android:layout_width="wrap_content"
+    	android:layout_marginLeft="10dip"/>
     <RelativeLayout
 	    android:layout_height="wrap_content"
 	    android:layout_width="wrap_content"
@@ -32,12 +33,14 @@
 	        android:layout_height="wrap_content"
 	        android:id="@+id/do_email_picker"
 	        android:text="@string/browse_contacts"
-	        android:layout_alignParentRight="true"/>
+	        android:layout_alignParentRight="true"
+	        style="@style/smsButton"/>
 	</RelativeLayout>
 	<TextView 
 	  	android:layout_height="wrap_content" 
 	  	android:text="@string/sms_content" 
-	  	android:layout_width="wrap_content"/>
+	  	android:layout_width="wrap_content"
+	  	android:layout_marginLeft="10dip"/>
      <EditText
 	        android:id="@+id/sms_content"
             android:layout_height="wrap_content"
@@ -52,5 +55,7 @@
 	        android:layout_height="wrap_content"
 	        android:id="@+id/send_sms"
 	        android:text="@string/send_sms"
-	        android:layout_gravity="center_horizontal"/>
+	        android:layout_gravity="center_horizontal"
+	        style="@style/smsButtonSend"
+	        android:layout_marginBottom="10dip"/>
 </LinearLayout>

@@ -79,7 +79,9 @@
 	<string name="instruction_cast_Iching">你可以晃动手机或者点击摇卦按钮来摇卦</string>
 	<string name="iching_opengl">3d</string>
 	<string name="end_of_records">没有记录了</string>
-	<string name="sms">短信</string>
+	<string name="sms">英文</string>
+	<string name="sms_cn">简体中文</string>
+	<string name="sms_hk">繁体中文</string>
 	<string name="sms_title">把这卦发送给别人</string>
 	<string name="sms_number">号码</string>
 	<string name="sms_content">内容</string>
