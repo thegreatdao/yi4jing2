@@ -88,4 +88,7 @@
 	<string name="browse_contacts">Browse</string>
 	<string name="send_sms">Send</string>
 	<string name="sms_hint">Enter receiver\'s number</string>
+	<string name="select_number">Please select a number</string>
+	<string name="empty_number">Please enter a number</string>
+	<string name="empty_sms">Message body cannot be empty</string>
 </resources>

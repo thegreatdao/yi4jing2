@@ -88,4 +88,7 @@
 	<string name="browse_contacts">搜索</string>
 	<string name="send_sms">发送</string>
 	<string name="sms_hint">输入对方的电话号码</string>
+	<string name="select_number">请选择一个号码</string>
+	<string name="empty_number">请输入一个号码</string>
+	<string name="empty_sms">请填写短信内容</string>
 </resources>

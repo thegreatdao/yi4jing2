@@ -30,6 +30,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -157,7 +158,7 @@ public class CastIChing extends Activity implements OnClickListener, SensorEvent
 				{
 					maximumNumOfRecordsIntValue = Integer.MAX_VALUE;
 				}
-				if(question.trim().length()==0)
+				if(TextUtils.isEmpty(question))
 				{
 					showDialog(0);
 				}
@@ -492,7 +493,7 @@ public class CastIChing extends Activity implements OnClickListener, SensorEvent
 	{
 		int originalIcon = getIconIDByCode(lines, iChingSQLiteDBHelper);
 		int changingIcon = 64;
-		if(changingLines.trim().length() != 0)
+		if(!TextUtils.isEmpty(changingLines))
 		{
 			String relatingCode = IChingHelper.getRelatingCode(lines, changingLines);
 			changingIcon = getIconIDByCode(relatingCode, iChingSQLiteDBHelper);
@@ -666,7 +667,40 @@ public class CastIChing extends Activity implements OnClickListener, SensorEvent
 	@Override
 	public boolean onOptionsItemSelected(MenuItem menuItem)
 	{
-		startActivity(new Intent(this, DivinationSMS.class));
+		Intent intent = new Intent(this, DivinationSMS.class);
+		StringBuilder sb = new StringBuilder();
+		if(!TextUtils.isEmpty(question))
+		{
+			sb.append(question + "\n");
+		}
+		switch (menuItem.getOrder())
+		{
+			case 0:
+				sb.append(originalHexagram.get(IChingSQLiteDBHelper.GUA_TITLE) + "\n" + originalHexagram.get(IChingSQLiteDBHelper.GUA_BODY));
+				if(!relatingHexagram.isEmpty())
+				{
+					sb.append("\n" + relatingHexagram.get(IChingSQLiteDBHelper.GUA_TITLE) + "\n" + relatingHexagram.get(IChingSQLiteDBHelper.GUA_BODY));
+				}
+				intent.putExtra(DivinationSMS.SMS_BODY, sb.toString());
+				break;
+			case 1:
+				sb.append(originalHexagram.get(IChingSQLiteDBHelper.GUA_TITLE_CN) + "\n" + originalHexagram.get(IChingSQLiteDBHelper.GUA_BODY_CN));
+				if(!relatingHexagram.isEmpty())
+				{
+					sb.append("\n" + relatingHexagram.get(IChingSQLiteDBHelper.GUA_TITLE_CN) + "\n" + relatingHexagram.get(IChingSQLiteDBHelper.GUA_BODY_CN));
+				}
+				intent.putExtra(DivinationSMS.SMS_BODY, sb.toString());
+				break;				
+			default:
+				sb.append(originalHexagram.get(IChingSQLiteDBHelper.GUA_TITLE_TW) + "\n" + originalHexagram.get(IChingSQLiteDBHelper.GUA_BODY_TW));
+				if(!relatingHexagram.isEmpty())
+				{
+					sb.append("\n" + relatingHexagram.get(IChingSQLiteDBHelper.GUA_TITLE_TW) + "\n" + relatingHexagram.get(IChingSQLiteDBHelper.GUA_BODY_TW));
+				}
+				intent.putExtra(DivinationSMS.SMS_BODY, sb.toString());
+				break;
+		}
+		startActivity(intent);
 		return Boolean.TRUE;
 	}
 }
