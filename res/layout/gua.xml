@@ -44,7 +44,7 @@
 						android:layout_marginRight="20dip"/>
 				</LinearLayout>
 			</TableRow>
-	</TableLayout>		
+	</TableLayout>
 	<ImageView
 		android:id="@+id/gua_icon"
 		android:layout_width="fill_parent"

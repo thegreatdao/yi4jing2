@@ -92,4 +92,6 @@
 	<string name="empty_number">請輸入一個號碼</string>
 	<string name="empty_sms">請填寫短信內容</string>
 	<string name="cannot_send_sms_without_cast">發短信之前，請先搖卦</string>
+	<string name="increase">放大字體</string>
+	<string name="decrease">縮小字體</string>
 </resources>

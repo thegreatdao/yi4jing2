@@ -12,12 +12,18 @@ import iching.android.R;
 import iching.android.persistence.IChingSQLiteDBHelper;
 import iching.android.utils.IChingHelper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -33,11 +39,13 @@ public class Gua extends Activity
 	private static final int LOWER_BOUND = 0;
 	private static final int UPPER_BOUND = 65;
 	
-	private TextView textView;
+	private int zoomTime;
+	private TextView textViewBody;
 	private Bundle extras;
 	private int language;
 	private ImageView iconImage;
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
+	private List<MenuItem> menuItems;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -52,20 +60,20 @@ public class Gua extends Activity
 		setContentView(R.layout.gua);
 		Locale locale = Locale.getDefault();
 		extras = getIntent().getExtras();
-		String data = extras.getString(GUA_BODY);
+		String body = extras.getString(GUA_BODY);
 		String title = extras.getString(GUA_TITLE);
 		if(locale.equals(Locale.CHINA))
 		{
-			data = extras.getString(GUA_BODY_CN);
+			body = extras.getString(GUA_BODY_CN);
 			title = extras.getString(GUA_TITLE_CN);
 		}
 		else if(locale.equals(Locale.TAIWAN))
 		{
-			data = extras.getString(GUA_BODY_TW);
+			body = extras.getString(GUA_BODY_TW);
 			title = extras.getString(GUA_TITLE_TW);
 		}
-		textView = (TextView) findViewById(R.id.gua_content);
-		textView.setText(data);
+		textViewBody = (TextView) findViewById(R.id.gua_content);
+		textViewBody.setText(body);
 		setTitle(title);
 		iconImage = (ImageView) findViewById(R.id.gua_icon);
 		String icon = extras.getString(GUA_ICON);
@@ -95,17 +103,17 @@ public class Gua extends Activity
 			{
 				case R.id.us:
 					setTitle(extras.getString(GUA_TITLE));
-					textView.setText(extras.getString(GUA_BODY));
+					textViewBody.setText(extras.getString(GUA_BODY));
 					language = LANG_EN;
 					break;
 				case R.id.cn:
 					setTitle(extras.getString(GUA_TITLE_CN));
-					textView.setText(extras.getString(GUA_BODY_CN));
+					textViewBody.setText(extras.getString(GUA_BODY_CN));
 					language = LANG_CN;
 					break;
 				case R.id.hk:
 					setTitle(extras.getString(GUA_TITLE_TW));
-					textView.setText(extras.getString(GUA_BODY_TW));
+					textViewBody.setText(extras.getString(GUA_BODY_TW));
 					language = LANG_TW;
 					break;
 				case R.id.left_arrow:
@@ -165,9 +173,49 @@ public class Gua extends Activity
 					title = gua.get(GUA_TITLE_TW);
 				}
 				iconImage.setImageResource(IChingHelper.getId(gua.get(GUA_ICON), R.drawable.class));
-				textView.setText(bodyContent);
+				textViewBody.setText(bodyContent);
 				setTitle(title);
 			}
 		}
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem)
+	{
+		switch (menuItem.getOrder())
+		{
+			case 0:
+				textViewBody.setTextSize(TypedValue.COMPLEX_UNIT_PX, textViewBody.getTextSize() + 2);
+				if(++zoomTime == 3)
+				{
+					menuItems.get(0).setEnabled(false);
+				}
+				menuItems.get(1).setEnabled(true);
+				break;
+			case 1:
+				textViewBody.setTextSize(TypedValue.COMPLEX_UNIT_PX, textViewBody.getTextSize() - 2);
+				if(--zoomTime == -3)
+				{
+					menuItems.get(1).setEnabled(false);
+				}
+				menuItems.get(0).setEnabled(true);
+				break;
+			default:
+				break;
+		}
+		return Boolean.TRUE;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.font_menu, menu);
+		menuItems = new ArrayList<MenuItem>();
+		for(int i=0; i<menu.size(); i++)
+		{
+			menuItems.add(menu.getItem(i));
+		}
+		return true;
 	}
 }
