@@ -75,7 +75,8 @@ public class DivinationSMS extends Activity
 		        }
 		        else
 		        {
-		        	sms.sendTextMessage(number, null, body, null, null);
+		        	ArrayList<String> messages = sms.divideMessage(body);
+		        	sms.sendMultipartTextMessage(number, null, messages, null, null);
 		        	finish();
 		        }
 			}

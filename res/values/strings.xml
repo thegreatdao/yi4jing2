@@ -91,4 +91,5 @@
 	<string name="select_number">Please select a number</string>
 	<string name="empty_number">Please enter a number</string>
 	<string name="empty_sms">Message body cannot be empty</string>
+	<string name="cannot_send_sms_without_cast">SMS will be activated after casting</string>
 </resources>
