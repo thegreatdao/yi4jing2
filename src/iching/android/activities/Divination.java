@@ -10,6 +10,9 @@ import java.util.Map;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -20,6 +23,7 @@ public class Divination extends Activity implements OnClickListener
 
 	private Map<String, String> originalGua;
 	private Map<String, String> relatingGua;
+	private String question;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -28,7 +32,8 @@ public class Divination extends Activity implements OnClickListener
 		setContentView(R.layout.divination);
 		Bundle extras = getIntent().getExtras();
 		TextView yourQuestion = (TextView)findViewById(R.id.your_question);
-		yourQuestion.setText(extras.getString(IChingSQLiteDBHelper.QUESTION));
+		question = extras.getString(IChingSQLiteDBHelper.QUESTION);
+		yourQuestion.setText(question);
 		ArrayList<ImageView> originalImageViews = new ArrayList<ImageView>();
 		originalImageViews.add((ImageView)findViewById(R.id.yao));
 		originalImageViews.add((ImageView)findViewById(R.id.yao2));
@@ -132,6 +137,51 @@ public class Divination extends Activity implements OnClickListener
 		Intent intent = new Intent(this, Gua.class);
 		IChingHelper.setUpIntentWithGua(intent, gua);
 		startActivity(intent);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.castiching_menu, menu);
+		return Boolean.TRUE;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem)
+	{
+		Intent intent = new Intent(this, DivinationSMS.class);
+		StringBuilder sb = new StringBuilder();
+		sb.append(question + "\n");
+		switch (menuItem.getOrder())
+		{
+			case 0:
+				sb.append(originalGua.get(IChingSQLiteDBHelper.GUA_TITLE) + "\n" + originalGua.get(IChingSQLiteDBHelper.GUA_BODY));
+				if(relatingGua != null)
+				{
+					sb.append("\n" + relatingGua.get(IChingSQLiteDBHelper.GUA_TITLE) + "\n" + relatingGua.get(IChingSQLiteDBHelper.GUA_BODY));
+				}
+				intent.putExtra(DivinationSMS.SMS_BODY, sb.toString());
+				break;
+			case 1:
+				sb.append(originalGua.get(IChingSQLiteDBHelper.GUA_TITLE_CN) + "\n" + originalGua.get(IChingSQLiteDBHelper.GUA_BODY_CN));
+				if(relatingGua != null)
+				{
+					sb.append("\n" + relatingGua.get(IChingSQLiteDBHelper.GUA_TITLE_CN) + "\n" + relatingGua.get(IChingSQLiteDBHelper.GUA_BODY_CN));
+				}
+				intent.putExtra(DivinationSMS.SMS_BODY, sb.toString());
+				break;				
+			default:
+				sb.append(originalGua.get(IChingSQLiteDBHelper.GUA_TITLE_TW) + "\n" + originalGua.get(IChingSQLiteDBHelper.GUA_BODY_TW));
+				if(relatingGua != null)
+				{
+					sb.append("\n" + relatingGua.get(IChingSQLiteDBHelper.GUA_TITLE_TW) + "\n" + relatingGua.get(IChingSQLiteDBHelper.GUA_BODY_TW));
+				}
+				intent.putExtra(DivinationSMS.SMS_BODY, sb.toString());
+				break;
+		}
+		startActivity(intent);
+		return Boolean.TRUE;
 	}
 }
 
