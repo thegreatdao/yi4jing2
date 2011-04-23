@@ -1,7 +1,6 @@
 package iching.android.activities;
 
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_CODE;
-import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE;
 import static iching.android.persistence.IChingSQLiteDBHelper.ID;
 import static iching.android.persistence.IChingSQLiteDBHelper.TABLE_DIVINATION;
 import iching.android.R;
@@ -289,7 +288,7 @@ public class CastIChing extends Activity implements OnClickListener, SensorEvent
 											String originalHexgramCode = getOriginalCodes(originalHexagramLines);
 											originalHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + originalHexgramCode + "'");
 											TextView originalTitle = (TextView) findViewById(R.id.gua_title);
-											originalTitle.setText(originalHexagram.get(GUA_TITLE));
+											originalTitle.setText(IChingHelper.getLocalizedTitle(originalHexagram));
 											button.setText(R.string.restCoin);
 											String relatingHexgramCode = getRelatingCodes(originalHexagramLines);
 											if(relatingHexagramExists(originalHexagramLines))
@@ -297,10 +296,11 @@ public class CastIChing extends Activity implements OnClickListener, SensorEvent
 												displayRelatingHexagram(originalHexagramLines);
 												relatingHexagram = iChingSQLiteDBHelper.selectOneGuaByField("code", "'" + relatingHexgramCode + "'");
 												TextView relatingTitle = (TextView) findViewById(R.id.gua_title2);
-												relatingTitle.setText(relatingHexagram.get(GUA_TITLE));
+												relatingTitle.setText(IChingHelper.getLocalizedTitle(relatingHexagram));
 											}
 											saveDivinationButton.setVisibility(View.VISIBLE);
 										}
+										
 									};
 									handler.post(showRelatingHexgramRunnable);
 									canShake = Boolean.FALSE;

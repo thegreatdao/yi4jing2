@@ -179,25 +179,30 @@ public class Gua extends Activity
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem menuItem)
 	{
 		switch (menuItem.getOrder())
 		{
 			case 0:
-				textViewBody.setTextSize(TypedValue.COMPLEX_UNIT_PX, textViewBody.getTextSize() + 2);
-				if(++zoomTime == 3)
+				zoomTime++;
+				if(zoomTime == 3)
 				{
 					menuItems.get(0).setEnabled(false);
 				}
+				textViewBody.setTextSize(TypedValue.COMPLEX_UNIT_PX, textViewBody.getTextSize() + 2);
 				menuItems.get(1).setEnabled(true);
 				break;
 			case 1:
-				textViewBody.setTextSize(TypedValue.COMPLEX_UNIT_PX, textViewBody.getTextSize() - 2);
-				if(--zoomTime == -3)
+				zoomTime--;
+				if(zoomTime == 0)
 				{
 					menuItems.get(1).setEnabled(false);
 				}
+				textViewBody.setTextSize(TypedValue.COMPLEX_UNIT_PX, textViewBody.getTextSize() - 2);
 				menuItems.get(0).setEnabled(true);
 				break;
 			default:

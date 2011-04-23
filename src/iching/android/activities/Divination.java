@@ -55,7 +55,7 @@ public class Divination extends Activity implements OnClickListener
 		displayHexagramByLines(lines, changingLines, Boolean.TRUE, originalImageViews);
 		IChingSQLiteDBHelper iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.FALSE);
 		originalGua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.GUA_CODE, "'" + lines + "'");
-		String originalTitle = originalGua.get(IChingSQLiteDBHelper.GUA_TITLE);
+		String originalTitle = IChingHelper.getLocalizedTitle(originalGua);
 		TextView originalTitleTextView = (TextView)findViewById(R.id.gua_title);
 		originalTitleTextView.setText(originalTitle);
 		originalTitleTextView.setOnClickListener(this);
@@ -63,7 +63,7 @@ public class Divination extends Activity implements OnClickListener
 		{
 			displayHexagramByLines(lines, changingLines, Boolean.FALSE, relatingImageViews);
 			relatingGua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.GUA_CODE, "'" + IChingHelper.getRelatingCode(lines, changingLines) + "'");
-			String relatingTitle = relatingGua.get(IChingSQLiteDBHelper.GUA_TITLE);
+			String relatingTitle = IChingHelper.getLocalizedTitle(relatingGua);
 			TextView relatingTitleTextView = (TextView)findViewById(R.id.gua_title2);
 			relatingTitleTextView.setText(relatingTitle);
 			relatingTitleTextView.setOnClickListener(this);

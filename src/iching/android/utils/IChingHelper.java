@@ -9,8 +9,10 @@ import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE_CN;
 import static iching.android.persistence.IChingSQLiteDBHelper.GUA_TITLE_TW;
 import static iching.android.persistence.IChingSQLiteDBHelper.ID;
 import iching.android.R;
+import iching.android.persistence.IChingSQLiteDBHelper;
 
 import java.lang.reflect.Field;
+import java.util.Locale;
 import java.util.Map;
 
 import android.content.Intent;
@@ -93,5 +95,22 @@ public class IChingHelper
 		intent.putExtra(GUA_ICON, gua.get(GUA_ICON));
 		intent.putExtra(ID, gua.get(ID));
 		return intent;
+	}
+	
+	public static String getLocalizedTitle(Map<String, String> hexagram)
+	{
+		Locale locale = Locale.getDefault();
+		if(locale.equals(Locale.CHINA))
+		{
+			return hexagram.get(IChingSQLiteDBHelper.GUA_TITLE_CN);
+		}
+		else if(locale.equals(Locale.TAIWAN))
+		{
+			return hexagram.get(IChingSQLiteDBHelper.GUA_TITLE_TW);
+		}
+		else
+		{
+			return hexagram.get(IChingSQLiteDBHelper.GUA_TITLE);
+		}
 	}
 }
