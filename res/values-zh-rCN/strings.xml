@@ -94,4 +94,5 @@
 	<string name="cannot_send_sms_without_cast">发短信之前，请先摇卦</string>
 	<string name="increase">放大字体</string>
 	<string name="decrease">缩小字体</string>
+	<string name="no_records">没有记录</string>
 </resources>
