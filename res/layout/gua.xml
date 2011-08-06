@@ -14,32 +14,30 @@
 						android:id="@+id/left_arrow"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:src="@drawable/arrowleft"
-						android:layout_marginLeft="20dip"/>
+						android:layout_marginLeft="20dip" android:background="@drawable/previous_arrow"/>
 					<ImageView
 						android:id="@+id/right_arrow"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:src="@drawable/arrowright"
-						android:layout_marginLeft="20dip"/>
+						android:layout_marginLeft="20dip" android:background="@drawable/next_arrow"/>
 				</LinearLayout>
 				<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="right">
 					<ImageView
 						android:id="@+id/us"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:src="@drawable/us"/>
+						android:background="@drawable/us_button"/>
 					<ImageView
 						android:id="@+id/cn"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:src="@drawable/cn"
+						android:background="@drawable/cn_button"
 						android:layout_marginLeft="20dip"/>
 					<ImageView
 						android:id="@+id/hk"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:src="@drawable/hk"
+						android:background="@drawable/hk_button"
 						android:layout_marginLeft="20dip"
 						android:layout_marginRight="20dip"/>
 				</LinearLayout>

@@ -19,6 +19,9 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.gesture.Gesture;
+import android.gesture.GestureOverlayView;
+import android.gesture.GestureOverlayView.OnGesturePerformedListener;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -31,7 +34,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Gua extends Activity
+public class Gua extends Activity implements OnGesturePerformedListener
 {
 	private static final int LANG_EN = 1;
 	private static final int LANG_CN = 2;
@@ -91,7 +94,7 @@ public class Gua extends Activity
 		prev.setOnClickListener(changeLanEventListener);
 		next.setOnClickListener(changeLanEventListener);
 	}
-
+	
 	private class ChangeLanEventListener implements OnClickListener
 	{
 		@Override
@@ -222,5 +225,10 @@ public class Gua extends Activity
 			menuItems.add(menu.getItem(i));
 		}
 		return true;
+	}
+
+	@Override
+	public void onGesturePerformed(GestureOverlayView overlay, Gesture gesture) {
+		
 	}
 }
