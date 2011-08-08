@@ -1,6 +1,7 @@
 package iching.android.persistence;
 
 import iching.android.bean.Divination;
+import iching.android.bean.TitleAndCode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,13 +44,13 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 	public static final String GUA_TITLE_CN = "guaTitleCN";
 	public static final String GUA_BODY_TW = "guaBodyTW";
 	public static final String GUA_TITLE_TW = "guaTitleTW";
+	public static final String GUA_CODE = "code";
 	public static final String QUESTION = "question";
 	public static final String CREATED_TIME = "created_time";
 	public static final String ORIGINAL_LINES = "lines";
 	public static final String CHANGING_LINES = "changing_lines";
 	public static final String ORIGINAL_ICON = "original_icon";
 	public static final String RELATING_ICON = "changing_icon";
-	public static final String GUA_CODE = "code";
 	private static final String INSERT_DIVINATION = "INSERT INTO " + TABLE_DIVINATION + " (lines, changing_lines, question, original_icon, changing_icon) VALUES (?, ?, ?, ?, ?)";
 	private static final String DELETE_DIVINATION = "DELETE FROM " + TABLE_DIVINATION + " WHERE _id = (SELECT MIN(_id) FROM " + TABLE_DIVINATION + ")";
 	private SQLiteDatabase sqLiteDatabase;
@@ -132,7 +133,7 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		dbInput.close();
 	}
 	
-	public List<String> selectAllTitles(Locale locale)
+	public List<TitleAndCode> selectAllTitlesAndCodes(Locale locale)
 	{
 		String field = TITLE_EN;
 		if(locale.equals(Locale.TAIWAN))
@@ -143,10 +144,23 @@ public class IChingSQLiteDBHelper extends SQLiteOpenHelper
 		{
 			field = TITLE_CN;
 		}
-		return selectAllForOneField(TABLE_GUA, field, " _id asc");
+		List<TitleAndCode> results = new ArrayList<TitleAndCode>();
+		Cursor cursor = sqLiteDatabase.query(TABLE_GUA, new String[]{field, GUA_CODE}, null, null, null, null, ID);
+		if(cursor.moveToFirst())
+		{
+			do
+			{
+				TitleAndCode titleAndCode = new TitleAndCode();
+				titleAndCode.setTitle(cursor.getString(0));
+				titleAndCode.setCode(cursor.getString(1));
+				results.add(titleAndCode);
+			}while(cursor.moveToNext());
+		}
+		cursor.close();
+		return results;
 	}
 	
-	public ArrayList<String> selectAllForOneField(String tableName, String field, String orderBy)
+	public List<String> selectAllForOneField(String tableName, String field, String orderBy)
 	{
 		if(orderBy == null)
 		{

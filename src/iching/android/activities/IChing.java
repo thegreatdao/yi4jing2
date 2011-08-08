@@ -22,11 +22,11 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.InflateException;
 import android.view.LayoutInflater;
+import android.view.LayoutInflater.Factory;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.LayoutInflater.Factory;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -37,7 +37,7 @@ public class IChing extends Activity implements OnClickListener
 
 	private static final String ICON_MENU_ITEM_VIEW = "com.android.internal.view.menu.IconMenuItemView";
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -70,20 +70,10 @@ public class IChing extends Activity implements OnClickListener
 	}
 
 	@Override
-	protected void onStart()
-	{
-		super.onStart();
-		if(Preferences.isMusicOn(this))
-		{
-			MusicControl.play(this, R.raw.bg);
-		}
-	}
-
-	@Override
 	protected void onResume()
 	{
 		super.onResume();
-		if(Preferences.isMusicOn(this))
+		if (Preferences.isMusicOn(this))
 		{
 			MusicControl.resume(this, R.raw.bg);
 		}
@@ -91,13 +81,6 @@ public class IChing extends Activity implements OnClickListener
 		{
 			MusicControl.stop(this);
 		}
-	}
-	
-	@Override
-	protected void onDestroy()
-	{
-		super.onDestroy();
-		MusicControl.stop(this);
 	}
 
 	@Override
@@ -127,8 +110,11 @@ public class IChing extends Activity implements OnClickListener
 				startActivity(aboutIntent);
 				break;
 			case R.id.exit:
-				/*Intent threeDIntent = new Intent(this, IChingOpenGL.class);
-				startActivity(threeDIntent);*/
+				/*
+				 * Intent threeDIntent = new Intent(this, IChingOpenGL.class);
+				 * startActivity(threeDIntent);
+				 */
+				MusicControl.pause(this);
 				showDialog(0);
 				break;
 			default:
@@ -187,32 +173,30 @@ public class IChing extends Activity implements OnClickListener
 			}
 		});
 	}
-	
+
 	@Override
 	protected Dialog onCreateDialog(int id)
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);;
-		builder.setMessage(R.string.confirmation_exit_text)
-		.setCancelable(false)
-		.setPositiveButton(R.string.yes,
-		new DialogInterface.OnClickListener()
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		;
+		builder.setMessage(R.string.confirmation_exit_text).setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
 		{
 			public void onClick(DialogInterface dialog, int id)
 			{
+				MusicControl.stop(getApplicationContext());
 				finish();
 			}
-		}).setNegativeButton(R.string.no,
-		new DialogInterface.OnClickListener()
+		}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
 		{
 			public void onClick(DialogInterface dialog, int id)
 			{
 				dialog.cancel();
+				MusicControl.resume(getApplicationContext(), R.raw.bg);
 			}
 		});
 		return builder.create();
 	}
 
-	
 	private void setUpListeners()
 	{
 		View referencesCheckButton = findViewById(R.id.references_check);
@@ -228,21 +212,21 @@ public class IChing extends Activity implements OnClickListener
 		View randomizerButton = findViewById(R.id.randomizer);
 		randomizerButton.setOnClickListener(this);
 	}
-	
-	
+
 	private void prepareGuas(Intent intent)
 	{
 		iChingSQLiteDBHelper = new IChingSQLiteDBHelper(this, Boolean.FALSE);
 		List<String[]> guas = iChingSQLiteDBHelper.getGuasByGongs();
-		for(int i=0; i<guas.size(); i++)
+		for (int i = 0; i < guas.size(); i++)
 		{
-			intent.putExtra(Integer.toString(i+1), guas.get(i));
+			intent.putExtra(Integer.toString(i + 1), guas.get(i));
 		}
 	}
 
 	@Override
 	public void onBackPressed()
 	{
+		MusicControl.pause(this);
 		showDialog(0);
 	}
 }
