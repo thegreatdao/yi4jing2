@@ -95,4 +95,8 @@
 	<string name="increase">Increase font size</string>
 	<string name="decrease">Decrease font size</string>
 	<string name="no_records">No Records</string>
+	<string name="hexagram_background_title">Hexagram\'s background</string>
+	<string name="hexgram_background_summary">Enable/disable background of hexagram when viewing, either transparent or white</string>
+	<string name="hexgram_background_value_on">White</string>
+	<string name="hexgram_background_value_off">Transparent</string>
 </resources>

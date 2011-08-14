@@ -201,22 +201,26 @@ public class IChingView extends Activity
 		return gridView;
 	}
 
-	private void setOnItemClickListener(final IChingSQLiteDBHelper iChingSQLiteDBHelper, AdapterView<?> adapterView)
+	private void setOnItemClickListener(final IChingSQLiteDBHelper iChingSQLiteDBHelper, final AdapterView<?> adapterView)
 	{
 		adapterView.setOnItemClickListener(new OnItemClickListener()
 		{
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id)
 			{
 				final Intent intent = new Intent(getApplicationContext(), Gua.class);
-				setUpHexagram(iChingSQLiteDBHelper, intent, position);
-			}
-
-			private void setUpHexagram(final IChingSQLiteDBHelper iChingSQLiteDBHelper, final Intent intent, int position)
-			{
-				Map<String, String> gua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.ID, position + 1);
+				Map<String, String> gua;
+				if(adapterView instanceof ListView)
+				{
+					gua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.GUA_CODE, "'" + ((TextView)v.findViewById(R.id.hiddenCode)).getText().toString() + "'");
+				}
+				else
+				{
+					gua = iChingSQLiteDBHelper.selectOneGuaByField(IChingSQLiteDBHelper.ID, position + 1);
+				}
 				IChingHelper.setUpIntentWithGua(intent, gua);
 				startActivity(intent);
 			}
+
 		});
 	}
 
@@ -255,6 +259,8 @@ public class IChingView extends Activity
 				hexagramText.setText(hexagram.getTitle());
 				ImageView hexagramIcon = (ImageView) view.findViewById(R.id.hexagram_icon);
 				hexagramIcon.setImageResource(hexagram.getIcon());
+				TextView codeTextView = (TextView) view.findViewById(R.id.hiddenCode);
+				codeTextView.setText(hexagram.getCode());
 			}
 			return view;
 		}
@@ -275,15 +281,15 @@ public class IChingView extends Activity
 			@Override
 			protected FilterResults performFiltering(CharSequence constraint)
 			{
-				ArrayList<Hexagram> hexagrams2 = HexagramAdapter.this.allHexagrams;
+				ArrayList<Hexagram> hexs = HexagramAdapter.this.allHexagrams;
 				FilterResults results = new FilterResults();
 				String constraintString = constraint.toString().trim();
 				if (constraint == null || constraintString.length() == 0)
 				{
 					synchronized (allHexagrams)
 					{
-						results.values = hexagrams2;
-						results.count = hexagrams2.size();
+						results.values = hexs;
+						results.count = hexs.size();
 					}
 				}
 				else
@@ -291,7 +297,7 @@ public class IChingView extends Activity
 					synchronized (filteredHexagrams)
 					{
 						List<Hexagram> hexagrams = new ArrayList<Hexagram>();
-						for (Hexagram hexagram : hexagrams2)
+						for (Hexagram hexagram : hexs)
 						{
 							if (hexagram.getCode().startsWith(constraintString))
 							{

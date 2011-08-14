@@ -95,4 +95,8 @@
 	<string name="increase">放大字體</string>
 	<string name="decrease">縮小字體</string>
 	<string name="no_records">沒有記錄</string>
+	<string name="hexagram_background_title">卦背景</string>
+	<string name="hexgram_background_summary">設置背景透明或者白色</string>
+	<string name="hexgram_background_value_on">白色</string>
+	<string name="hexgram_background_value_off">透明</string>
 </resources>

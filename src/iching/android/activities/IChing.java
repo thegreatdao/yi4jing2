@@ -226,7 +226,6 @@ public class IChing extends Activity implements OnClickListener
 	@Override
 	public void onBackPressed()
 	{
-		MusicControl.pause(this);
 		showDialog(0);
 	}
 }

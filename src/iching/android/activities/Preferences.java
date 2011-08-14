@@ -28,10 +28,13 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 	public static final String DEFAULT_VALUE_VIEW = "0";
 	public static final String KEY_DIVINATIONS = "numOfRecordsPref";
 	public static final String DEFAULT_VALUE_DIVINATIONS = "10";
+	public static final String KEY_HEX_BACKGROUND = "hexagramBackgroundPref";
+	public static final boolean DEFAULT_VALUE_HEX_BACKGROUND_COLOR = Boolean.FALSE;
 	
 	private ListPreference viewListPreference;
 	private ListPreference numOfRecordsListPreference;
 	private CheckBoxPreference musicCheckBoxPreference;
+	private CheckBoxPreference hexgramBackgroundCheckBoxPreference;
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
 	private String initNumOfRecords;
 
@@ -44,9 +47,11 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 		viewListPreference = (ListPreference)getPreferenceScreen().findPreference(KEY_VIEW);
 		numOfRecordsListPreference = (ListPreference)getPreferenceScreen().findPreference(KEY_DIVINATIONS);
 		musicCheckBoxPreference = (CheckBoxPreference)getPreferenceScreen().findPreference(KEY_MUSIC);
+		hexgramBackgroundCheckBoxPreference = (CheckBoxPreference)getPreferenceScreen().findPreference(KEY_HEX_BACKGROUND);
 		setUpMusicSummary(KEY_MUSIC);
 		setUpViewSummary(KEY_VIEW);		
 		setUpNumOfRecordsSummary(KEY_DIVINATIONS);
+		setUpHexgramBackgroundSummary(KEY_HEX_BACKGROUND);
 		initNumOfRecords = getStringValue(this, KEY_DIVINATIONS, DEFAULT_VALUE_DIVINATIONS);
 	}
 	
@@ -98,6 +103,10 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 				initNumOfRecords = currentValueString;
 				setUpNumOfRecordsSummary(key);
 			}
+		}
+		else if(key.equals(KEY_HEX_BACKGROUND))
+		{
+			setUpHexgramBackgroundSummary(KEY_HEX_BACKGROUND);			
 		}
 	}
 
@@ -178,6 +187,19 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 		Spannable summary = new SpannableString (input);
 		summary.setSpan(new ForegroundColorSpan(R.color.title_color), 0, summary.length(), 0 );
 		preference.setSummary(summary);
+	}
+
+	private void setUpHexgramBackgroundSummary(String keyHexBackground)
+	{
+		String hexgramBackgroundSummary = getString(R.string.hexgram_background_summary);
+		String hexgramBackgroundValue = getString(R.string.hexgram_background_value_on);
+		if(!getSharedPreferences(this).getBoolean(KEY_HEX_BACKGROUND, false))
+		{
+			hexgramBackgroundValue = getString(R.string.hexgram_background_value_off);
+		}
+		hexgramBackgroundValue = getString(R.string.open_bracket) + hexgramBackgroundValue + getString(R.string.close_bracket);
+		hexgramBackgroundSummary = stylizeValue(hexgramBackgroundSummary, hexgramBackgroundValue);
+		hexgramBackgroundCheckBoxPreference.setSummary(Html.fromHtml(hexgramBackgroundSummary));
 	}
 	
 	public static boolean isMusicOn(Context context)

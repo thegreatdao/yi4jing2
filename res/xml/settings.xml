@@ -9,6 +9,11 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/hexagrams_preference_category">
+		<CheckBoxPreference
+			android:key="hexagramBackgroundPref"
+			android:title="@string/hexagram_background_title"
+			android:summary="@string/hexgram_background_summary"
+			android:defaultValue="false"/>
 		<ListPreference
 			android:key="viewPref"
 			android:title="@string/hexagrams_view_preference"
@@ -27,4 +32,5 @@
 			android:entryValues="@array/divinations_values"
 			android:defaultValue="10"/>
 	</PreferenceCategory>
+	
 </PreferenceScreen>

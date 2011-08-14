@@ -19,10 +19,8 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.gesture.Gesture;
-import android.gesture.GestureOverlayView;
-import android.gesture.GestureOverlayView.OnGesturePerformedListener;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,13 +32,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Gua extends Activity implements OnGesturePerformedListener
+public class Gua extends Activity
 {
 	private static final int LANG_EN = 1;
 	private static final int LANG_CN = 2;
 	private static final int LANG_TW = 3;
 	private static final int LOWER_BOUND = 0;
 	private static final int UPPER_BOUND = 65;
+	private static final String PREF_FONT_SIZE = "prefFontSize";
 	
 	private int zoomTime;
 	private TextView textViewBody;
@@ -77,6 +76,10 @@ public class Gua extends Activity implements OnGesturePerformedListener
 		}
 		textViewBody = (TextView) findViewById(R.id.gua_content);
 		textViewBody.setText(body);
+		if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Preferences.KEY_HEX_BACKGROUND, false))
+		{
+			textViewBody.setBackgroundResource(R.drawable.white);
+		}
 		setTitle(title);
 		iconImage = (ImageView) findViewById(R.id.gua_icon);
 		String icon = extras.getString(GUA_ICON);
@@ -196,8 +199,10 @@ public class Gua extends Activity implements OnGesturePerformedListener
 				{
 					menuItems.get(0).setEnabled(false);
 				}
-				textViewBody.setTextSize(TypedValue.COMPLEX_UNIT_PX, textViewBody.getTextSize() + 2);
+				float newFontSizeIncrease = textViewBody.getTextSize() + 2;
+				textViewBody.setTextSize(TypedValue.COMPLEX_UNIT_PX, newFontSizeIncrease);
 				menuItems.get(1).setEnabled(true);
+				PreferenceManager.getDefaultSharedPreferences(this).edit().putFloat(PREF_FONT_SIZE, newFontSizeIncrease).commit();
 				break;
 			case 1:
 				zoomTime--;
@@ -205,7 +210,9 @@ public class Gua extends Activity implements OnGesturePerformedListener
 				{
 					menuItems.get(1).setEnabled(false);
 				}
-				textViewBody.setTextSize(TypedValue.COMPLEX_UNIT_PX, textViewBody.getTextSize() - 2);
+				float newFontSizeDecrease = textViewBody.getTextSize() - 2;
+				textViewBody.setTextSize(TypedValue.COMPLEX_UNIT_PX, newFontSizeDecrease);
+				PreferenceManager.getDefaultSharedPreferences(this).edit().putFloat(PREF_FONT_SIZE, newFontSizeDecrease).commit();
 				menuItems.get(0).setEnabled(true);
 				break;
 			default:
@@ -226,9 +233,5 @@ public class Gua extends Activity implements OnGesturePerformedListener
 		}
 		return true;
 	}
-
-	@Override
-	public void onGesturePerformed(GestureOverlayView overlay, Gesture gesture) {
-		
-	}
+	
 }

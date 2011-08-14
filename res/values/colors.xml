@@ -9,4 +9,5 @@
 	<color name="option_bottom_color">#EFEFEF</color>
 	<color name="option_center_selected_color">#DFDFDF</color>
 	<color name="divination_title_color">@color/title_background_color</color>
+	<color name="hexagram_background_color">#ffffff</color>
 </resources>
