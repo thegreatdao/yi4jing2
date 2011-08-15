@@ -20,7 +20,7 @@
     	
     	<activity android:name=".activities.IChingView" android:label="@string/gua_label"/>
     	
-    	<activity android:name=".activities.Gua" android:theme="@style/Android.dialog" android:label="@string/gua_label" android:screenOrientation="portrait"/>
+    	<activity android:name=".activities.Gua" android:theme="@style/Android.dialog" android:label="@string/gua_label"/>
     	
     	<activity android:name=".activities.CastIChing" android:label="@string/destin" android:screenOrientation="portrait"/>
     	

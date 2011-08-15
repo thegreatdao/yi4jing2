@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent" android:weightSum="1" android:orientation="horizontal">
+    <LinearLayout android:layout_height="fill_parent" android:orientation="vertical" android:layout_width="wrap_content">
+    	<LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="center">
+        			<ImageView
+						android:id="@+id/left_arrow"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:background="@drawable/previous_arrow"/>
+					<ImageView
+						android:id="@+id/right_arrow"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="20dip" android:background="@drawable/next_arrow"/>
+		</LinearLayout>
+    	<ImageView
+			android:id="@+id/gua_icon"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:background="@drawable/image_background"/>
+    	<LinearLayout android:gravity="center" android:id="@+id/linearLayout2" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_marginBottom="10dip">
+    		<ImageView android:background="@drawable/us_button" android:id="@+id/us" android:layout_marginLeft="5dip" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageView>
+    		<ImageView android:background="@drawable/cn_button" android:id="@+id/cn" android:layout_marginLeft="10dip" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageView>
+    		<ImageView android:background="@drawable/hk_button" android:id="@+id/hk" android:layout_marginLeft="10dip" android:layout_height="wrap_content" android:layout_marginRight="5dip" android:layout_width="wrap_content"></ImageView>
+    	</LinearLayout>
+    </LinearLayout>
+    
+    <ScrollView android:layout_height="fill_parent" android:id="@+id/gua_body" android:layout_width="fill_parent">
+     <TextView 
+	  	android:id="@+id/gua_content"
+	  	android:layout_width="fill_parent"
+	  	android:layout_height="wrap_content"
+	  	android:padding="10dip"/>
+    </ScrollView>
+    
+</LinearLayout>
