@@ -4,7 +4,7 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent" android:weightSum="1" android:orientation="horizontal">
     <LinearLayout android:layout_height="fill_parent" android:orientation="vertical" android:layout_width="wrap_content">
-    	<LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="center">
+    	<LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="center" android:layout_marginTop="10dip">
         			<ImageView
 						android:id="@+id/left_arrow"
 						android:layout_width="wrap_content"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="iching.android"
-      android:versionName="1.0" android:versionCode="23">
+      android:versionName="1.0" android:versionCode="26">
 
 	<uses-permission android:name="android.permission.WAKE_LOCK"/>
 	<uses-permission android:name="android.permission.VIBRATE"/>
@@ -20,7 +20,7 @@
     	
     	<activity android:name=".activities.IChingView" android:label="@string/gua_label"/>
     	
-    	<activity android:name=".activities.Gua" android:theme="@style/Android.dialog" android:label="@string/gua_label"/>
+    	<activity android:name=".activities.Gua" android:label="@string/gua_label"/>
     	
     	<activity android:name=".activities.CastIChing" android:label="@string/destin" android:screenOrientation="portrait"/>
     	

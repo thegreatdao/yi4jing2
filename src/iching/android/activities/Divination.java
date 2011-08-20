@@ -7,7 +7,6 @@ import iching.android.utils.IChingHelper;
 import java.util.ArrayList;
 import java.util.Map;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,7 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class Divination extends Activity implements OnClickListener
+public class Divination extends IChingBaseActivity implements OnClickListener
 {
 
 	private Map<String, String> originalGua;

@@ -5,7 +5,6 @@ import iching.android.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,7 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class DivinationSMS extends Activity
+public class DivinationSMS extends IChingBaseActivity
 {
 
 	private static final int CONTACT_PICKER_RESULT = 1;

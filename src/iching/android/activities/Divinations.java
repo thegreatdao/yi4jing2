@@ -17,7 +17,6 @@ import java.util.Map;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,11 +25,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemLongClickListener;
 
-public class Divinations extends ListActivity
+public class Divinations extends IChingBaseListActivity
 {
 	private IChingSQLiteDBHelper iChingSQLiteDBHelper;
 	private long divinationId;

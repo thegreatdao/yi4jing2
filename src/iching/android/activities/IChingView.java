@@ -80,7 +80,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -102,7 +101,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-public class IChingView extends Activity
+public class IChingView extends IChingBaseActivity
 {
 	private ViewSwitcher viewSwitcher;
 	private boolean isGridView;

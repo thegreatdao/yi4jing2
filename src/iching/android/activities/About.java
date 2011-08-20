@@ -1,13 +1,12 @@
 package iching.android.activities;
 
 import iching.android.R;
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.TextView;
 
-public class About extends Activity
+public class About extends IChingBaseActivity
 {
 
 	@Override

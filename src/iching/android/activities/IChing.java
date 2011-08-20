@@ -6,7 +6,6 @@ import iching.android.service.MusicControl;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -32,7 +31,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-public class IChing extends Activity implements OnClickListener
+public class IChing extends IChingBaseActivity implements OnClickListener
 {
 
 	private static final String ICON_MENU_ITEM_VIEW = "com.android.internal.view.menu.IconMenuItemView";
@@ -70,20 +69,6 @@ public class IChing extends Activity implements OnClickListener
 	}
 
 	@Override
-	protected void onResume()
-	{
-		super.onResume();
-		if (Preferences.isMusicOn(this))
-		{
-			MusicControl.resume(this, R.raw.bg);
-		}
-		else
-		{
-			MusicControl.stop(this);
-		}
-	}
-
-	@Override
 	public void onClick(View view)
 	{
 		switch (view.getId())
@@ -114,7 +99,6 @@ public class IChing extends Activity implements OnClickListener
 				 * Intent threeDIntent = new Intent(this, IChingOpenGL.class);
 				 * startActivity(threeDIntent);
 				 */
-				MusicControl.pause(this);
 				showDialog(0);
 				break;
 			default:

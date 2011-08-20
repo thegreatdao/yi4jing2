@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -32,7 +31,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Gua extends Activity
+public class Gua extends IChingBaseActivity
 {
 	private static final int LANG_EN = 1;
 	private static final int LANG_CN = 2;
@@ -90,7 +89,7 @@ public class Gua extends Activity
 		ImageView hk = (ImageView)findViewById(R.id.hk);
 		ImageView prev = (ImageView)findViewById(R.id.left_arrow);
 		ImageView next = (ImageView)findViewById(R.id.right_arrow);
-		ChangeLanEventListener changeLanEventListener = new ChangeLanEventListener();
+		ChangeLineEventListener changeLanEventListener = new ChangeLineEventListener();
 		us.setOnClickListener(changeLanEventListener);
 		cn.setOnClickListener(changeLanEventListener);
 		hk.setOnClickListener(changeLanEventListener);
@@ -98,7 +97,7 @@ public class Gua extends Activity
 		next.setOnClickListener(changeLanEventListener);
 	}
 	
-	private class ChangeLanEventListener implements OnClickListener
+	private class ChangeLineEventListener implements OnClickListener
 	{
 		@Override
 		public void onClick(View view)

@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -41,7 +40,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CastIChing extends Activity implements OnClickListener, SensorEventListener
+public class CastIChing extends IChingBaseActivity implements OnClickListener, SensorEventListener
 {
 	private Handler handler;
 	private int threadCount;

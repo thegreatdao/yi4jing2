@@ -3,6 +3,7 @@ package iching.android.activities;
 import iching.android.R;
 import iching.android.andengine.GuaSprite;
 import iching.android.persistence.IChingSQLiteDBHelper;
+import iching.android.service.MusicControl;
 import iching.android.utils.IChingHelper;
 
 import java.util.ArrayList;
@@ -73,6 +74,28 @@ public class Randomizer extends LayoutGameActivity implements IAccelerometerList
 	private Texture texture;
 	private int CAMERA_WIDTH;
 	private int CAMERA_HEIGHT;
+	
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		MusicControl.pause(this);
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		if (Preferences.isMusicOn(this))
+		{
+			MusicControl.resume(this, R.raw.bg);
+		}
+		else
+		{
+			MusicControl.stop(this);
+		}
+	}
+
 	private static final FixtureDef FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 	
 	private final Vector2 vector2 = new Vector2();

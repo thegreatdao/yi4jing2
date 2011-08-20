@@ -60,6 +60,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 	{
 		super.onPause();
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        MusicControl.pause(this);
     }
 	
 	@Override
@@ -67,6 +68,14 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 	{
 		super.onResume();
 		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+		if (Preferences.isMusicOn(this))
+		{
+			MusicControl.resume(this, R.raw.bg);
+		}
+		else
+		{
+			MusicControl.stop(this);
+		}
 	}
 
 	@Override
